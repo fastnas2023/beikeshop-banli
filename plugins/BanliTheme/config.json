@@ -1,0 +1,18 @@
+{
+    "code": "banli_theme",
+    "name": {
+        "zh_cn": "板栗主题",
+        "en": "Banli Theme"
+    },
+    "description": {
+        "zh_cn": "BeikeShop板栗定制主题模板",
+        "en": "BeikeShop Banli Custom Theme Template"
+    },
+    "type": "theme",
+    "version": "v1.0.0",
+    "icon": "/image/logo.png",
+    "author": {
+        "name": "开发者",
+        "email": "developer@example.com"
+    }
+}
