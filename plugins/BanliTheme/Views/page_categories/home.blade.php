@@ -1,63 +1,71 @@
 @extends('layout.master')
-@section('body-class', 'page-categories-home')
-
-@push('header')
-  <script src="{{ asset('vendor/scrolltofixed/jquery-scrolltofixed-min.js') }}"></script>
-@endpush
+@section('body-class', 'page-categories-home banli-news-list')
+@section('title', __('page_category.index'))
 
 @section('content')
-  {{ $breadcrumb->render() }}
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-9 col-12">
-        <div class="card mb-4 shadow-sm h-min-600">
-          <div class="card-body">
-            @foreach ($active_pages as $page)
-              <div class="post-item">
-                @if ($page->image)
-                <a class="image rounded-2" href="{{ shop_route('pages.show', [$page->id]) }}">
-                  <img src="{{ image_resize($page->image, 200, 200) }}" class="img-fluid seo-img" alt="{{ $page->description->title }}">
-                </a>
-                @endif
-                <div class="post-info">
-                  <h5 class="card-title mb-2"><a class="text-black" href="{{ shop_route('pages.show', [$page->id]) }}">{{ $page->description->title }}</a></h5>
-                  <p class="fs-6 mb-3 text-secondary">{{ $page->created_at }}</p>
-                  @if ($page->description->summary)
-                    <p class="card-text mb-3">{{ $page->description->summary ?? '' }}</p>
-                  @endif
-                  <div class="text-danger"><a href="{{ shop_route('pages.show', [$page->id]) }}">{{ __('shop/account.check_details') }}<i class="bi bi-arrow-right-short"></i></a></div>
-                </div>
+  <section id="section-hero" class="section-dark no-top no-bottom text-light jarallax relative mh-500" data-speed="0.45">
+    <img src="{{ asset('banli_theme-assets/aivent/images/background/3.webp') }}" class="jarallax-img" alt="">
+    <div class="gradient-edge-bottom h-50"></div>
+    <div class="sw-overlay op-5"></div>
+    <div class="abs w-80 bottom-10 z-2 w-100">
+      <div class="container">
+        <div class="row align-items-center justify-content-between gx-5">
+          <div class="col-lg-6">
+            <div class="relative">
+              <div class="text-start">
+                <h1 class="fs-96 text-uppercase fs-sm-10vw mb-0 lh-1">{{ __('page_category.index') }}</h1>
               </div>
+            </div>
+          </div>
 
-              @if (!$loop->last)
-                <hr class="my-4">
-              @endif
-            @endforeach
+          <div class="col-lg-4">
+            <p class="mb-0">{{ system_setting('base.meta_description') ?: 'Explore the latest stories, insights, and updates from Banli.' }}</p>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      @if ($active_page_categories)
-        <div class="col-lg-3 col-12">
-          <div class="card mb-3 shadow-sm h-min-300 x-fixed-top">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="card-title">{{ __('product.category') }}</h5>
+  <section class="banli-news-grid-section">
+    <div class="container">
+      @if ($active_pages->count() > 0)
+        <div class="row g-4">
+          @foreach ($active_pages as $page)
+            @php
+              $fallbackIndex = (($loop->iteration - 1) % 6) + 1;
+              $postImage = $page->image ? image_origin($page->image) : asset("banli_theme-assets/aivent/images/news/s{$fallbackIndex}.webp");
+              $postDate = $page->created_at;
+            @endphp
+            <div class="col-lg-4 col-md-6">
+              <a href="{{ shop_route('pages.show', [$page->id]) }}" class="d-block hover relative rounded-20 overflow-hidden text-light banli-news-card">
+                <div class="abs z-2 bg-color rounded-2 text-white p-3 pb-2 m-4 text-center fw-600 banli-news-date">
+                  <h4 class="fs-36 mb-0 lh-1">{{ $postDate ? $postDate->format('d') : '' }}</h4>
+                  <span>{{ $postDate ? $postDate->format('M') : '' }}</span>
+                </div>
+
+                <img src="{{ $postImage }}" class="w-100 hover-scale-1-1" alt="{{ $page->description->title }}">
+
+                <div class="absolute start-0 bottom-0 p-4 z-2">
+                  <h4>{{ $page->description->title }}</h4>
+                  @if ($page->description->summary)
+                    <p>{{ $page->description->summary }}</p>
+                  @endif
+                </div>
+
+                <div class="gradient-edge-bottom h-70"></div>
+              </a>
             </div>
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                @foreach ($active_page_categories as $category)
-                  <li class="list-group-item p-0">
-                    <a href="{{ shop_route('page_categories.show', [$category->id]) }}"
-                      class="p-2 list-group-item-action nav-link">{{ $category->description->title }}</a>
-                  </li>
-                @endforeach
-              </ul>
+          @endforeach
+
+          <div class="col-lg-12 pt-4 text-center">
+            <div class="d-inline-block">
+              {{ $active_pages->links('shared/pagination/bootstrap-4') }}
             </div>
-            @hook('page_categories.home.active_page_categories.after')
           </div>
         </div>
+      @else
+        <x-shop-no-data />
       @endif
     </div>
-  </div>
+  </section>
 @endsection

@@ -20,7 +20,14 @@
           @foreach ($themes as $item)
           <div class="col-12 col-md-6 col-lg-4 col-xl-3">
             <div class="item">
-              <div class="img"><img src="{{ $item['image'] }}" class="img-fluid"></div>
+              <div class="img">
+                <img
+                  src="{{ $item['image'] }}"
+                  class="img-fluid"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='{{ $item['fallback_image'] ?? image_origin('image/default-theme.webp') }}';"
+                >
+              </div>
               <div class="theme-bottom d-flex justify-content-between align-items-center">
                 <div class="name"><strong>{{ $item['name'] }}</strong></div>
                 <div class="theme-tool">

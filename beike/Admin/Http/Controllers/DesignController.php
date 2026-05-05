@@ -77,7 +77,7 @@ class DesignController extends Controller
 
         $viewData = hook_filter('admin.design.preview.data', $viewData);
 
-        return view($viewPath, $viewData);
+        return view($viewData['view_path'] ?? $viewPath, $viewData);
     }
 
     /**

@@ -1,10 +1,15 @@
-<div class="offcanvas" tabindex="-1" id="offcanvas-search-top" aria-labelledby="offcanvasTopLabel">
+<div class="offcanvas" tabindex="-1" id="offcanvas-search-top" aria-labelledby="offcanvasTopLabel" data-bs-backdrop="true" data-bs-scroll="false">
   <div class="container">
     <div class="offcanvas-header">
       <div class="search-input-wrap input-group mb-0">
-        <input type="text" class="form-control search-popover-input input-group-lg fs-4" focus placeholder="{{ __('common.input') }}"
+        <input type="text" class="form-control search-popover-input input-group-lg fs-4" autofocus placeholder="{{ __('common.input') }}"
                value="{{ request('keyword') }}" data-lang="{{ locale() === system_setting('base.locale') ? '' : session()->get('locale') }}">
-        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <button type="button" class="input-group-text search-popover-submit" aria-label="{{ __('common.search') }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
       </div>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -85,7 +90,30 @@
         if (keyword) {
           topSearchGetData(keyword)
         }
+
+        setTimeout(function () {
+          $input.trigger('focus');
+        }, 180);
       })
+
+      $input.on('keydown', function (event) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+          searchSubmit();
+        }
+      });
+
+      $('.search-popover-submit').on('click', searchSubmit);
+
+      function searchSubmit() {
+        const keyword = $input.val().trim();
+
+        if (!keyword) {
+          $input.trigger('focus');
+          return;
+        }
+
+        window.location.href = '{{ shop_route('products.search') }}?keyword=' + encodeURIComponent(keyword);
+      }
 
       function topSearchGetData(keyword) {
         const searchListHeight = $searchList.height();

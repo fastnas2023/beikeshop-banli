@@ -3,7 +3,7 @@
 
 <div class="module-item py-5 {{ $design ? 'module-item-design' : ''}} aivent-dark-section" id="module-{{ $module_id }}">
   <div class="module-info module-pages">
-    <div class="{{ !empty($content['module_size']) ? $content['module_size'] : 'container'  }} position-relative">
+    <div class="{{ !empty($content['module_size']) ? $content['module_size'] : 'container'  }} position-relative banli-news-home-container">
       <div class="text-center mb-5">
         <h2 class="display-5 fw-bold mb-3">
           <span class="neon-text-gradient">{{ $content['title'] ?: 'Latest Tech News & Updates' }}</span>
@@ -81,6 +81,11 @@
   .module-pages {
     position: relative;
     z-index: 1;
+  }
+  .banli-news-home-container {
+    max-width: 1304px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .neon-text-gradient {
     background: linear-gradient(90deg, #00ffff, #e023ff);

@@ -28,24 +28,27 @@ class ThemeController extends Controller
     {
         $currentTheme = system_setting('base.theme');
         $themes       = PluginRepo::getEnabledThemes();
+        $fallbackImage = image_origin('image/default-theme.webp');
 
         $data['themes'][] = [
             'name'   => trans('admin/theme.theme_name'),
             'code'   => 'default',
             'demo'   => true,
-            'image'  => image_origin('image/default-theme.webp'),
+            'image'  => $fallbackImage,
+            'fallback_image' => $fallbackImage,
             'status' => $currentTheme == 'default',
         ];
 
         foreach ($themes as $theme) {
             $themeCode        = $theme->code;
             $plugin           = $theme->plugin;
-            $imagePath        = $plugin->theme ?? 'image/theme.jpg';
+            $imagePath        = trim((string) ($plugin->theme ?? 'image/theme.jpg'), '/');
             $data['themes'][] = [
                 'name'   => $plugin->getLocaleName(),
                 'code'   => $themeCode,
                 'demo'   => true,
-                'image'  => plugin_asset($themeCode, $imagePath),
+                'image'  => $this->resolveThemeImage($themeCode, $imagePath),
+                'fallback_image' => $fallbackImage,
                 'status' => $currentTheme == $themeCode,
             ];
         }
@@ -79,5 +82,21 @@ class ThemeController extends Controller
         SettingRepo::update('system', 'base', ['theme' => $themeCode]);
 
         return json_success(trans('common.success'));
+    }
+
+    private function resolveThemeImage(string $themeCode, string $imagePath): string
+    {
+        if (preg_match('/^(https?:)?\/\//i', $imagePath)) {
+            return $imagePath;
+        }
+
+        $publicRelativePath = trim("plugin/{$themeCode}/{$imagePath}", '/');
+        $publicAssetPath = public_path($publicRelativePath);
+
+        if (is_file($publicAssetPath)) {
+            return asset($publicRelativePath);
+        }
+
+        return plugin_asset($themeCode, $imagePath);
     }
 }

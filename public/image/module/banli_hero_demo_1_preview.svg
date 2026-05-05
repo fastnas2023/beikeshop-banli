@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="338" viewBox="0 0 600 338" role="img" aria-label="Banli Hero 01 preview">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#17205a"/>
+      <stop offset=".55" stop-color="#111946"/>
+      <stop offset="1" stop-color="#0b102f"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" x2="1">
+      <stop offset="0" stop-color="#8058ff"/>
+      <stop offset="1" stop-color="#22d2ff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".72" cy=".18" r=".72">
+      <stop offset="0" stop-color="#7c58ff" stop-opacity=".42"/>
+      <stop offset=".72" stop-color="#7c58ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="338" rx="18" fill="url(#bg)"/>
+  <rect width="600" height="338" fill="url(#glow)"/>
+  <path d="M0 230 C105 200 155 275 260 238 S450 190 600 218" fill="none" stroke="#51c7ff" stroke-opacity=".18" stroke-width="3"/>
+  <path d="M0 260 C110 226 190 294 294 258 S470 220 600 248" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="2"/>
+  <text x="300" y="68" text-anchor="middle" fill="#a38cff" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700">[ The Future of Intelligence ]</text>
+  <text x="300" y="150" text-anchor="middle" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="64" font-weight="800">AI SUMMIT</text>
+  <text x="300" y="214" text-anchor="middle" fill="#bfc6db" font-family="Inter,Arial,sans-serif" font-size="54" font-weight="800">2026</text>
+  <rect x="156" y="244" width="288" height="40" rx="20" fill="#121a48" stroke="#8f9bc8" stroke-opacity=".45"/>
+  <text x="208" y="270" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="800">GET TICKETS</text>
+  <text x="326" y="270" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="800">SCHEDULE</text>
+  <rect x="36" y="286" width="528" height="36" rx="10" fill="#10183f" stroke="#ffffff" stroke-opacity=".18"/>
+  <text x="72" y="310" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="800">Hurry Up!</text>
+  <text x="392" y="310" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="800">121 AI Blvd.</text>
+</svg>

@@ -99,6 +99,10 @@
                 <pb-image-selector :can-remove="true" v-model="form.content.intro.logo" :is-language="false"></pb-image-selector>
               </div>
               <div class="module-edit-group">
+                <div class="module-edit-title">品牌名称</div>
+                <text-i18n v-model="form.content.intro.brand_text"></text-i18n>
+              </div>
+              <div class="module-edit-group">
                 <div class="module-edit-title">{{ __('admin/builder.introduction') }}</div>
                 <rich-text-i18n v-model="form.content.intro.text"></rich-text-i18n>
               </div>
@@ -163,6 +167,18 @@
 
             <el-collapse-item title="{{ __('admin/builder.text_static_information_contact') }}" name="footer-content-contact">
               <div class="module-edit-group">
+                <div class="module-edit-title">地址标题</div>
+                <text-i18n v-model="form.content.contact.address_title"></text-i18n>
+              </div>
+              <div class="module-edit-group">
+                <div class="module-edit-title">联系标题</div>
+                <text-i18n v-model="form.content.contact.title"></text-i18n>
+              </div>
+              <div class="module-edit-group">
+                <div class="module-edit-title">电话标签</div>
+                <text-i18n v-model="form.content.contact.phone_label"></text-i18n>
+              </div>
+              <div class="module-edit-group">
                 <div class="module-edit-title">{{ __('common.phone') }}</div>
                 <el-input placeholder="{{ __('common.phone') }}" size="small" v-model="form.content.contact.telephone"></el-input>
               </div>
@@ -174,6 +190,14 @@
               <div class="module-edit-group">
                 <div class="module-edit-title">{{ __('admin/builder.text_email') }}</div>
                 <el-switch v-model="form.content.contact.email"></el-switch>
+              </div>
+              <div class="module-edit-group">
+                <div class="module-edit-title">邮箱标签</div>
+                <text-i18n v-model="form.content.contact.email_label"></text-i18n>
+              </div>
+              <div class="module-edit-group">
+                <div class="module-edit-title">邮箱地址</div>
+                <el-input placeholder="support@example.com" size="small" v-model="form.content.contact.email_address"></el-input>
               </div>
             </el-collapse-item>
 
@@ -235,6 +259,31 @@
       },
       // 组件方法
       methods: {
+        normalizeFooterFields() {
+          if (!this.form.content) this.$set(this.form, 'content', {});
+          if (!this.form.content.intro) this.$set(this.form.content, 'intro', {});
+          if (!this.form.content.contact) this.$set(this.form.content, 'contact', {});
+
+          if (!this.form.content.intro.brand_text) {
+            this.$set(this.form.content.intro, 'brand_text', languagesFill('Banli'));
+          }
+          if (!this.form.content.contact.address_title) {
+            this.$set(this.form.content.contact, 'address_title', languagesFill('Address'));
+          }
+          if (!this.form.content.contact.title) {
+            this.$set(this.form.content.contact, 'title', languagesFill('Contact Us'));
+          }
+          if (!this.form.content.contact.phone_label) {
+            this.$set(this.form.content.contact, 'phone_label', languagesFill('T.'));
+          }
+          if (!this.form.content.contact.email_label) {
+            this.$set(this.form.content.contact, 'email_label', languagesFill('M.'));
+          }
+          if (!Object.prototype.hasOwnProperty.call(this.form.content.contact, 'email_address')) {
+            this.$set(this.form.content.contact, 'email_address', '{{ system_setting('base.email', 'support@example.com') }}');
+          }
+        },
+
         footerUpdate: bk.debounce(function() {
           $http.post('design_footer/builder/preview', this.form, {hload: true}).then((res) => {
             if (previewWindow) {
@@ -285,6 +334,7 @@
         },
       },
       created () {
+        this.normalizeFooterFields();
       },
       mounted () {
         $('#preview-iframe').on('load', function(event) {

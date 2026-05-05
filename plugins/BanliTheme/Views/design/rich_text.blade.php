@@ -6,6 +6,14 @@
         } elseif (!empty($content['content'])) {
             $htmlContent = is_string($content['content']) ? $content['content'] : ($content['content'][locale()] ?? $content['content']['en'] ?? '');
         }
+        if ($htmlContent) {
+            $htmlContent = str_replace('/banli_theme-assets/aivent//banli_theme-assets/aivent/', '/banli_theme-assets/aivent/', $htmlContent);
+            $htmlContent = preg_replace('/\\b(src|href)=\"images\\//i', '$1=\"/banli_theme-assets/aivent/images/', $htmlContent);
+            $htmlContent = preg_replace("/\\b(src|href)='images\\//i", '$1=\'/banli_theme-assets/aivent/images/', $htmlContent);
+            $htmlContent = preg_replace("/url\\((\"|')?images\\//i", 'url($1/banli_theme-assets/aivent/images/', $htmlContent);
+            $htmlContent = preg_replace('/data-bgimage=\"url\\(images\\//i', 'data-bgimage=\"url(/banli_theme-assets/aivent/images/', $htmlContent);
+            $htmlContent = preg_replace("/data-bgimage='url\\(images\\//i", 'data-bgimage=\'url(/banli_theme-assets/aivent/images/', $htmlContent);
+        }
     @endphp
 
     @if($htmlContent)

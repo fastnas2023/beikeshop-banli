@@ -76,6 +76,32 @@
 </template>
 
 <script type="text/javascript">
+function decodeDesignUnicodeText(value) {
+  if (typeof value === 'string') {
+    if (!/\\u[0-9a-fA-F]{4}/.test(value)) {
+      return value;
+    }
+
+    try {
+      return JSON.parse('"' + value.replace(/"/g, '\\"').replace(/\r/g, '\\r').replace(/\n/g, '\\n') + '"');
+    } catch (e) {
+      return value;
+    }
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(item => decodeDesignUnicodeText(item));
+  }
+
+  if (value && typeof value === 'object') {
+    Object.keys(value).forEach(key => {
+      value[key] = decodeDesignUnicodeText(value[key]);
+    });
+  }
+
+  return value;
+}
+
 Vue.component('module-editor-tab-product', {
   template: '#module-editor-tab-product-template',
   props: ['module'],
@@ -102,7 +128,7 @@ Vue.component('module-editor-tab-product', {
   },
 
   created: function () {
-    this.form = JSON.parse(JSON.stringify(this.module));
+    this.form = decodeDesignUnicodeText(JSON.parse(JSON.stringify(this.module)));
     this.tabsValueProductData();
   },
 
@@ -111,7 +137,7 @@ Vue.component('module-editor-tab-product', {
 
   methods: {
     tabTitleLanguage(titles) {
-      return titles['{{ locale() }}'];
+      return decodeDesignUnicodeText(titles['{{ locale() }}'] || titles.en || titles.zh_cn || '');
     },
 
     tabsValueProductData() {

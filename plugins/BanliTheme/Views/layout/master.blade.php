@@ -76,7 +76,7 @@
     <!-- Cyber Theme CSS (Load last to override defaults) -->
     <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bootstrap">
     <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/vendors.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/style.css') }}?v=banli-footer-20260502" rel="stylesheet" type="text/css">
     <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/colors/scheme-01.css') }}" rel="stylesheet" type="text/css" id="colors">
 
     @if(request()->query('design') == 1)
@@ -130,10 +130,10 @@
         transition: all 0.4s ease;
       }
       /* Prevent content overlap with absolute header on non-home pages */
-      body:not(.page-home) #wrapper {
+      body:not(.page-home):not(.banli-news-list):not(.banli-news-single) #wrapper {
         padding-top: 104px;
       }
-      body:not(.page-home) header.transparent {
+      body:not(.page-home):not(.banli-news-list):not(.banli-news-single) header.transparent {
         background: #101435;
         position: fixed;
         width: 100%;
@@ -166,19 +166,39 @@
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         color: #fff;
-        height: auto !important;
-        max-height: 85vh;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100vh;
+        max-height: 100dvh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
         border-bottom: 1px solid rgba(0, 210, 255, 0.2);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        z-index: 2200;
+      }
+      .offcanvas-backdrop {
+        z-index: 2190;
       }
       #offcanvas-search-top .container {
-        padding-top: 30px;
-        padding-bottom: 40px;
+        max-width: 1304px;
+        padding-top: 28px;
+        padding-bottom: 48px;
       }
       #offcanvas-search-top .offcanvas-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 48px;
+        gap: 16px;
+        align-items: center;
+        padding-right: 0;
+        padding-left: 0;
         padding-bottom: 30px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         margin-bottom: 30px;
+      }
+      #offcanvas-search-top .search-input-wrap {
+        flex-wrap: nowrap;
+        min-width: 0;
+        min-height: 64px;
       }
       #offcanvas-search-top .search-popover-input {
         background-color: rgba(255, 255, 255, 0.03);
@@ -186,6 +206,9 @@
         color: #fff;
         border-radius: 8px 0 0 8px;
         padding: 15px 25px;
+        min-width: 0;
+        min-height: 64px;
+        line-height: 1.2;
       }
       #offcanvas-search-top .search-popover-input:focus {
         background-color: rgba(255, 255, 255, 0.05);
@@ -197,9 +220,17 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         color: #00d2ff;
         border-radius: 0 8px 8px 0;
-        padding: 0 25px;
+        width: 68px;
+        flex: 0 0 68px;
+        justify-content: center;
+        padding: 0;
         cursor: pointer;
         transition: all 0.3s ease;
+      }
+      #offcanvas-search-top .input-group-text svg {
+        display: block;
+        width: 22px;
+        height: 22px;
       }
       #offcanvas-search-top .input-group-text:hover {
         background-color: #00d2ff;
@@ -211,6 +242,7 @@
         margin-left: 20px;
         opacity: 0.5;
         transition: opacity 0.3s ease;
+        justify-self: end;
       }
       #offcanvas-search-top .btn-close:hover {
         opacity: 1;
@@ -239,6 +271,36 @@
         gap: 12px;
         padding-left: 0;
         margin-top: 20px;
+      }
+      #offcanvas-search-top .search-pop-products-wrap {
+        position: relative;
+        min-height: 180px;
+      }
+      #offcanvas-search-top .search-pop-products-wrap .spinner-border {
+        display: none;
+        position: absolute;
+        top: 54px;
+        left: 0;
+        width: 34px;
+        height: 34px;
+        color: #00d2ff;
+        z-index: 2;
+      }
+      #offcanvas-search-top .search-pop-products-wrap.loading .spinner-border {
+        display: inline-block;
+      }
+      #offcanvas-search-top .search-pop-products-wrap.loading .sp-products {
+        opacity: .35;
+        pointer-events: none;
+      }
+      #offcanvas-search-top .sp-products .product-wrap .image {
+        aspect-ratio: 1;
+        background: #fff;
+      }
+      #offcanvas-search-top .sp-products .product-wrap .image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
       #offcanvas-search-top .cyber-tag {
         background-color: rgba(255, 255, 255, 0.05);
@@ -382,6 +444,13 @@
   </head>
 <body class="@yield('body-class') {{ request('_from') }} dark-scheme">
   <div id="wrapper">
+    @if (!request('iframe') && request('_from') != 'app')
+      <div class="float-text show-on-scroll">
+        <span><a href="#" aria-label="Scroll to top">Scroll to top</a></span>
+      </div>
+      <div class="scrollbar-v show-on-scroll" aria-hidden="true"></div>
+    @endif
+
     @if(trim($__env->yieldContent('bk-page-loading')))
       @include('shared.bk-page-loading')
     @endif

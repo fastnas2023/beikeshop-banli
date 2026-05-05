@@ -181,6 +181,8 @@
       selectButtonClicked() {
         this.loading = true;
 
+        const params = this.type == 'video' ? {mime: 'video'} : null;
+
         bk.fileManagerIframe(images => {
           this.loading = false;
           if (this.isLanguage) {
@@ -196,7 +198,7 @@
               this.image = images[0].path;
             }
           }
-        })
+        }, params)
       }
     }
   });

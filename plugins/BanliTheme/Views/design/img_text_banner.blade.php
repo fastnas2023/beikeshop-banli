@@ -1,12 +1,17 @@
 <div class="module-item py-5 {{ $design ? 'module-item-design' : ''}}" id="module-{{ $module_id }}" style="background-color: {{ $content['bg_color'] ?? 'transparent' }};">
     <div class="module-info module-img-text-banner py-5">
         <div class="container">
-            <div class="row align-items-center g-5 {{ ($content['image_position'] ?? 'left') === 'right' ? 'flex-row-reverse' : '' }}">
+            <div class="row align-items-center g-5 {{ ($content['image_position'] ?? 'right') === 'left' ? 'flex-row-reverse' : '' }}">
                 <div class="col-lg-7">
                     <div class="text-{{ $content['text_position'] ?? 'left' }}">
                         @if(!empty($content['sub_title']))
                             <div class="subtitle mb-3" style="color: #00d2ff; font-weight: 500; font-size: 1.1rem; letter-spacing: 1px;">
-                                {{ is_array($content['sub_title']) ? ($content['sub_title'][locale()] ?? $content['sub_title']['en'] ?? '') : $content['sub_title'] }}
+                                @php
+                                    $subTitle = is_array($content['sub_title']) ? ($content['sub_title'][locale()] ?? $content['sub_title']['en'] ?? '') : $content['sub_title'];
+                                    $subTitle = preg_replace('/[\[\]]+/', '', (string) $subTitle);
+                                    $subTitle = trim($subTitle);
+                                @endphp
+                                {{ $subTitle }}
                             </div>
                         @endif
                         

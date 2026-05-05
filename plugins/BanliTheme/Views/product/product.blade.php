@@ -26,6 +26,407 @@
   </style>
   <style>
     /* Dark tech theme tabs */
+    .page-product #content {
+      background: #101435;
+    }
+    .banli-product-page {
+      min-height: 100vh;
+      padding: 62px 0 90px;
+      background:
+        radial-gradient(circle at 76% 12%, rgba(122, 76, 243, .16), transparent 34%),
+        radial-gradient(circle at 16% 20%, rgba(0, 210, 255, .10), transparent 30%),
+        #101435;
+    }
+    .banli-product-page .breadcrumb-filter {
+      margin-bottom: 24px;
+      border-top: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.025);
+    }
+    .banli-product-top {
+      align-items: flex-start;
+    }
+    .banli-product-page .product-image {
+      height: auto;
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 18px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 8px;
+      background: rgba(255,255,255,.045);
+      box-shadow: 0 22px 60px rgba(0,0,0,.20);
+    }
+    .banli-product-page .product-image .left {
+      width: 86px;
+      min-width: 0;
+    }
+    .banli-product-page .product-image .right,
+    .banli-product-page .product-img,
+    .banli-product-page #swiper-mobile {
+      height: 560px;
+      min-height: 560px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .banli-product-page .product-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banli-product-page .product-img img,
+    .banli-product-page #swiper-mobile img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      object-position: center center;
+    }
+    .banli-product-page .product-left-thumb-wrap {
+      height: 560px;
+    }
+    .banli-product-page .product-left-thumb-wrap .swiper-slide {
+      width: 76px !important;
+      height: 76px !important;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: #fff;
+      opacity: .66;
+      transition: opacity .2s ease, border-color .2s ease, transform .2s ease;
+    }
+    .banli-product-page .product-left-thumb-wrap .swiper-slide.active {
+      opacity: 1;
+      border-color: rgba(0, 210, 255, .75);
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 4px rgba(0, 210, 255, .10);
+    }
+    .banli-product-page .product-left-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .banli-product-page .peoduct-info {
+      height: 100%;
+      padding: clamp(22px, 2.4vw, 32px) !important;
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 8px !important;
+      background: linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.035));
+      box-shadow: 0 22px 60px rgba(0,0,0,.20);
+    }
+    .banli-product-page .peoduct-info .product-name {
+      color: #fff;
+      font-size: clamp(26px, 2.2vw, 38px) !important;
+      line-height: 1.14 !important;
+      letter-spacing: 0;
+    }
+    .banli-product-page .price-wrap {
+      margin: 20px 0 8px;
+    }
+    .banli-product-page .new-price {
+      color: #3c87ff !important;
+      font-size: clamp(36px, 3.4vw, 52px) !important;
+    }
+    .banli-product-page .stock-and-sku {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 22px;
+      margin: 0 0 18px !important;
+      color: rgba(255,255,255,.78);
+    }
+    .banli-product-page .stock-and-sku .d-lg-flex {
+      display: flex !important;
+    }
+    .banli-product-page .stock-and-sku .title {
+      min-width: 62px;
+      color: rgba(255,255,255,.48) !important;
+    }
+    .banli-product-page .variables-wrap {
+      margin-bottom: 16px !important;
+      padding: 16px !important;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 8px !important;
+      background: rgba(255,255,255,.04);
+    }
+    .banli-product-page .variable-group p {
+      color: rgba(255,255,255,.86);
+      font-weight: 800;
+    }
+    .banli-product-page .variable-info {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .banli-product-page .variable-info > div {
+      min-width: 54px;
+      margin: 0 !important;
+      padding: 8px 14px !important;
+      border: 1px solid rgba(255,255,255,.16) !important;
+      border-radius: 8px !important;
+      color: rgba(255,255,255,.86);
+      background: rgba(255,255,255,.045) !important;
+      font-weight: 750;
+      text-align: center;
+      cursor: pointer;
+      transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+    }
+    .banli-product-page .variable-info > div:hover,
+    .banli-product-page .variable-info > div.selected {
+      color: #fff;
+      border-color: rgba(0, 210, 255, .70) !important;
+      background: rgba(0, 210, 255, .14) !important;
+      transform: translateY(-1px);
+    }
+    .banli-product-page .variable-info > div.disabled {
+      opacity: .38;
+      cursor: not-allowed;
+    }
+    .banli-product-page .quantity-wrap {
+      max-width: 260px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .banli-product-page .quantity-wrap .btn,
+    .banli-product-page .quantity-wrap .form-control {
+      height: 48px;
+      color: #fff;
+      background: rgba(255,255,255,.055);
+      border-color: rgba(255,255,255,.14);
+    }
+    .banli-product-page .quantity-wrap .btn {
+      width: 48px;
+      flex: 0 0 48px;
+    }
+    .banli-product-page .quantity-wrap .form-control {
+      text-align: center;
+      font-weight: 750;
+    }
+    .banli-product-page .quantity-wrap .quantity-reduce i,
+    .banli-product-page .quantity-wrap .quantity-increase i {
+      display: none;
+    }
+    .banli-product-page .quantity-wrap .quantity-reduce::before {
+      content: "-";
+      font-size: 22px;
+      line-height: 1;
+    }
+    .banli-product-page .quantity-wrap .quantity-increase::before {
+      content: "+";
+      font-size: 22px;
+      line-height: 1;
+    }
+    .banli-product-page .product-btns .add-cart-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .banli-product-page .product-btns .btn {
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 8px;
+      margin: 0 !important;
+    }
+    .banli-product-page .add-wishlist .btn {
+      margin-top: 14px !important;
+      color: rgba(255,255,255,.68) !important;
+      text-decoration: none;
+    }
+    .banli-product-page .product-description,
+    .banli-product-page .relations-wrap {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 8px !important;
+      background: rgba(255,255,255,.045);
+    }
+    .banli-product-page .relations-wrap {
+      margin-top: 72px !important;
+      padding: clamp(38px, 4vw, 64px) 0 46px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)),
+        radial-gradient(circle at 15% 18%, rgba(0, 210, 255, .10), transparent 32%),
+        radial-gradient(circle at 82% 12%, rgba(122, 76, 243, .18), transparent 36%),
+        rgba(255,255,255,.035);
+    }
+    .banli-product-page .relations-wrap .container {
+      max-width: none;
+      width: 100%;
+      padding-left: clamp(32px, 4vw, 82px);
+      padding-right: clamp(32px, 4vw, 82px);
+    }
+    .banli-product-page .relations-wrap .title {
+      position: relative;
+      margin: 0 0 34px;
+      color: #fff;
+      font-size: clamp(30px, 3vw, 48px);
+      font-weight: 850;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    .banli-product-page .relations-wrap .title::after {
+      content: "";
+      display: block;
+      width: 78px;
+      height: 3px;
+      margin: 18px auto 0;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #00d2ff, #7a4cf3);
+      box-shadow: 0 0 18px rgba(0, 210, 255, .45);
+    }
+    .banli-product-page .relations-wrap .product {
+      position: relative;
+      padding: 0 62px 42px;
+    }
+    .banli-product-page .relations-wrap .swiper {
+      overflow: hidden;
+      padding: 1px;
+      border: 0;
+      outline: 0;
+      box-shadow: none;
+    }
+    .banli-product-page .relations-wrap .swiper-wrapper {
+      align-items: stretch;
+    }
+    .banli-product-page .relations-wrap .swiper-slide {
+      height: auto;
+    }
+    .banli-product-page .relations-wrap .product-wrap {
+      position: relative;
+      height: 100%;
+      padding: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(150, 130, 255, .18);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(59, 51, 120, .72) 0%, rgba(30, 36, 82, .76) 45%, rgba(25, 31, 73, .82) 100%),
+        rgba(42, 39, 92, .58);
+      box-shadow: 0 16px 36px rgba(8, 10, 32, .20);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .banli-product-page .relations-wrap .product-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 28% 4%, rgba(255,255,255,.085), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.035), transparent 46%);
+    }
+    .banli-product-page .relations-wrap .product-wrap > * {
+      position: relative;
+      z-index: 1;
+    }
+    .banli-product-page .relations-wrap .product-wrap:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 210, 255, .34);
+      box-shadow: 0 22px 52px rgba(8, 10, 32, .28), 0 0 0 1px rgba(0,210,255,.07);
+    }
+    .banli-product-page .relations-wrap .product-wrap .image {
+      aspect-ratio: 1;
+      border-radius: 6px !important;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(16,20,53,.06);
+    }
+    .banli-product-page .relations-wrap .product-wrap .image img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform .35s ease;
+    }
+    .banli-product-page .relations-wrap .product-wrap:hover .image img {
+      transform: scale(1.035);
+    }
+    .banli-product-page .relations-wrap .product-bottom-info {
+      padding: 18px 8px 4px;
+    }
+    .banli-product-page .relations-wrap .product-name {
+      display: -webkit-box !important;
+      height: 2.68em;
+      min-height: 2.68em;
+      max-height: 2.68em;
+      margin-bottom: 14px;
+      overflow: hidden;
+      color: #fff;
+      font-size: clamp(17px, 1.08vw, 20px);
+      font-weight: 800;
+      line-height: 1.34;
+      letter-spacing: 0;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .banli-product-page .relations-wrap .product-price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      min-height: 30px;
+      white-space: nowrap;
+    }
+    .banli-product-page .relations-wrap .price-new {
+      color: #2f7df6 !important;
+      font-size: clamp(19px, 1.25vw, 24px);
+      font-weight: 850 !important;
+      letter-spacing: .01em;
+    }
+    .banli-product-page .relations-wrap .price-old {
+      color: rgba(255,255,255,.46) !important;
+      font-size: clamp(13px, .85vw, 16px);
+      font-weight: 700;
+    }
+    .banli-product-page .relations-wrap .button-wrap {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .banli-product-page .relations-wrap .product-wrap:hover .button-wrap {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .banli-product-page .relations-swiper-prev,
+    .banli-product-page .relations-swiper-next {
+      width: 52px;
+      height: 52px;
+      margin-top: -40px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 50%;
+      color: #fff;
+      background: rgba(255,255,255,.075);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 14px 28px rgba(0,0,0,.24);
+      transition: background .2s ease, border-color .2s ease, color .2s ease;
+    }
+    .banli-product-page .relations-swiper-prev {
+      left: 0;
+    }
+    .banli-product-page .relations-swiper-next {
+      right: 0;
+    }
+    .banli-product-page .relations-swiper-prev:hover,
+    .banli-product-page .relations-swiper-next:hover {
+      border-color: rgba(0,210,255,.55);
+      color: #fff;
+      background: rgba(47,125,246,.9);
+    }
+    .banli-product-page .relations-swiper-prev::after,
+    .banli-product-page .relations-swiper-next::after {
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .banli-product-page .relations-pagination {
+      bottom: 0 !important;
+    }
+    .banli-product-page .relations-pagination .swiper-pagination-bullet {
+      width: 9px;
+      height: 9px;
+      background: rgba(255,255,255,.28);
+      opacity: 1;
+    }
+    .banli-product-page .relations-pagination .swiper-pagination-bullet-active {
+      width: 24px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #00d2ff, #7a4cf3);
+    }
     .nav-tabs.nav-overflow {
       border-bottom-color: #333 !important;
     }
@@ -44,6 +445,57 @@
       border-bottom: 2px solid #0dcaf0 !important;
       text-shadow: 0 0 8px rgba(13, 202, 240, 0.5);
     }
+    @media (max-width: 991.98px) {
+      .banli-product-page {
+        padding: 34px 0 66px;
+      }
+      .banli-product-page .product-image {
+        display: block;
+        padding: 12px;
+      }
+      .banli-product-page .product-image .right,
+      .banli-product-page .product-img,
+      .banli-product-page #swiper-mobile {
+        min-height: auto;
+        aspect-ratio: 1;
+      }
+      .banli-product-page .peoduct-info {
+        margin-top: 18px;
+      }
+      .banli-product-page .product-btns .btn {
+        flex: 1 1 100%;
+      }
+      .banli-product-page .relations-wrap {
+        margin-top: 48px !important;
+        padding: 34px 0 42px;
+      }
+      .banli-product-page .relations-wrap .container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .banli-product-page .relations-wrap .product {
+        padding: 0 0 42px;
+      }
+      .banli-product-page .relations-wrap .product-wrap {
+        padding: 12px;
+      }
+      .banli-product-page .relations-wrap .product-name {
+        min-height: 48px;
+        font-size: 16px;
+        line-height: 1.42;
+      }
+      .banli-product-page .relations-wrap .price-new {
+        font-size: 17px;
+      }
+      .banli-product-page .relations-wrap .button-wrap {
+        opacity: 1;
+        transform: none;
+      }
+      .banli-product-page .relations-swiper-prev,
+      .banli-product-page .relations-swiper-next {
+        display: none;
+      }
+    }
   </style>
 @endpush
 
@@ -52,7 +504,7 @@
 @endphp
 
 @section('content')
-  <section class="bg-dark section-dark text-light" style="min-height: 100vh; {{ request('iframe') ? 'padding-top: 20px;' : 'padding-top: 100px;' }}">
+  <section class="banli-product-page section-dark text-light" style="{{ request('iframe') ? 'padding-top: 20px;' : '' }}">
   @hook('product.detail.before')
 
   @if (!request('iframe'))
@@ -61,7 +513,7 @@
 
   <div class="container product-container {{ request('iframe') ? 'pt-4' : '' }}">
     @hook('product.detail.content.before')
-    <div class="row mb-md-5 mt-md-0" id="product-top">
+    <div class="row g-4 g-xl-5 mb-md-5 mt-md-0 banli-product-top" id="product-top">
       <div class="col-12 col-lg-6 mb-2">
         @hookwrapper('product.detail.images')
         <div class="product-image">
@@ -376,18 +828,26 @@
 
       var relationsSwiper = new Swiper('.relations-swiper', {
         watchSlidesProgress: true,
-        autoHeight: true,
+        autoHeight: false,
         breakpoints: {
           320: {
             slidesPerView: 2,
-            spaceBetween: 10,
+            spaceBetween: 12,
           },
           768: {
+            slidesPerView: 3,
+            spaceBetween: 22,
+          },
+          1200: {
             slidesPerView: 4,
-            spaceBetween: 30,
+            spaceBetween: 28,
+          },
+          1600: {
+            slidesPerView: 4,
+            spaceBetween: 36,
           },
         },
-        spaceBetween: 30,
+        spaceBetween: 28,
         // 如果需要前进后退按钮
         navigation: {
           nextEl: '.relations-swiper-next',
