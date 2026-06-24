@@ -18,6 +18,14 @@ Banli is a disciplined dark fashion storefront: graphite indigo canvas, clean pr
 8. Product cards use one 1px border and a clean image mat. No heavy glow, no oversized CTA slab.
 9. Footer rows share the same container width. Social icons are 30 to 34px on desktop.
 10. Navigation badges must not disrupt menu baseline alignment and parent menu items must have one chevron only.
+11. Homepage modules follow commerce intent order: hero, category entry, featured products, campaign banner, product block, brand proof, brand story, editorial content.
+12. Design builder module picker follows the same intent order. High-frequency commerce modules appear before decorative image modules.
+13. Any carousel or marquee must reserve enough top and bottom clipping space so rotated content is never visibly cut.
+14. Overlay backdrops must keep the underlying page recognizable. Quick view target opacity is 42 to 58 percent, and product media gets its own clean image mat.
+15. Hover states must not change layout dimensions. Transform, border color, and opacity are allowed; padding, width, height, and line-height changes are not.
+16. Text containers must define clamp, wrap, or ellipsis behavior before shipping. Long product names, category names, and menu labels are required test cases.
+17. Interactive controls need a fixed hit area and a separate visual glyph. Icons rotate or animate inside the hit area, not around it.
+18. Page sections must share one container system. Do not mix full-width lines with inset content unless it is an intentional full-bleed band.
 
 ## Tokens
 
@@ -100,3 +108,6 @@ Use Manrope for display and body. Use IBM Plex Mono only for SKU or technical id
 - No CTA above 48px height in product cards or quick view.
 - No mismatched footer separator widths.
 - No unrelated gradient bands that do not align with the page container.
+- No hover animation that changes component size.
+- No invisible dependency on current viewport width for image aspect ratio.
+- No editor-only module order that differs from the storefront default order.

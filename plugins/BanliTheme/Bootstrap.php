@@ -6,6 +6,58 @@ use Illuminate\Support\Facades\View;
 
 class Bootstrap
 {
+    private const HOME_MODULE_ORDER = [
+        'banli_hero_demo_1' => 10,
+        'banli_hero_demo_2' => 10,
+        'banli_hero_demo_3' => 10,
+        'banli_hero_demo_4' => 10,
+        'banli_hero_demo_5' => 10,
+        'slideshow' => 10,
+        'icons' => 20,
+        'tab_product' => 30,
+        'img_text_slideshow_2' => 40,
+        'product' => 50,
+        'brand' => 60,
+        'img_text_banner' => 70,
+        'img_text_banner_multiple' => 80,
+        'page' => 90,
+    ];
+
+    private const LEGACY_HOME_MODULE_SEQUENCE = [
+        'banli_hero_demo_1',
+        'img_text_slideshow_2',
+        'icons',
+        'tab_product',
+        'img_text_banner_multiple',
+        'product',
+        'img_text_banner',
+        'brand',
+        'page',
+    ];
+
+    private const DESIGN_EDITOR_ORDER = [
+        'editor-banli_hero' => 10,
+        'editor-icons' => 20,
+        'editor-tab_product' => 30,
+        'editor-product' => 40,
+        'editor-img_text_slideshow2' => 50,
+        'editor-img_text_banner' => 60,
+        'editor-img_text_banner_multiple' => 70,
+        'editor-brand' => 80,
+        'editor-page' => 90,
+        'editor-rich_text' => 100,
+        'editor-slide_show' => 110,
+        'editor-img_text_slideshow' => 120,
+        'editor-image100' => 130,
+        'editor-image200' => 140,
+        'editor-image300' => 150,
+        'editor-image301' => 160,
+        'editor-image400' => 170,
+        'editor-image401' => 180,
+        'editor-image402' => 190,
+        'editor-image403' => 200,
+    ];
+
     public function boot()
     {
         // 注册主题专属的 hook 或视图路径
@@ -18,6 +70,7 @@ class Bootstrap
             if (! in_array('editor-banli_hero', $data['editors'], true)) {
                 array_unshift($data['editors'], 'editor-banli_hero');
             }
+            $data['editors'] = $this->sortDesignEditors($data['editors']);
 
             if (isset($data['design_settings'])) {
                 $data['design_settings'] = $this->normalizeHeroModules($data['design_settings']);
@@ -90,7 +143,71 @@ class Bootstrap
             $settings['modules'][$index] = $module;
         }
 
+        if ($this->isLegacyDefaultHomeModuleSequence($settings['modules'])) {
+            $settings['modules'] = $this->sortHomeModules($settings['modules']);
+        }
+
         return $settings;
+    }
+
+    private function sortDesignEditors(array $editors): array
+    {
+        $indexed = [];
+        foreach (array_values($editors) as $index => $editor) {
+            $indexed[] = [
+                'editor' => $editor,
+                'index' => $index,
+                'priority' => self::DESIGN_EDITOR_ORDER[$editor] ?? 1000,
+            ];
+        }
+
+        usort($indexed, function ($a, $b) {
+            if ($a['priority'] === $b['priority']) {
+                return $a['index'] <=> $b['index'];
+            }
+
+            return $a['priority'] <=> $b['priority'];
+        });
+
+        return array_column($indexed, 'editor');
+    }
+
+    private function sortHomeModules(array $modules): array
+    {
+        $indexed = [];
+        foreach (array_values($modules) as $index => $module) {
+            $indexed[] = [
+                'module' => $module,
+                'index' => $index,
+                'priority' => $this->homeModulePriority($module),
+            ];
+        }
+
+        usort($indexed, function ($a, $b) {
+            if ($a['priority'] === $b['priority']) {
+                return $a['index'] <=> $b['index'];
+            }
+
+            return $a['priority'] <=> $b['priority'];
+        });
+
+        return array_column($indexed, 'module');
+    }
+
+    private function isLegacyDefaultHomeModuleSequence(array $modules): bool
+    {
+        $codes = array_map(function ($module) {
+            return $module['code'] ?? '';
+        }, array_values($modules));
+
+        return $codes === self::LEGACY_HOME_MODULE_SEQUENCE;
+    }
+
+    private function homeModulePriority(array $module): int
+    {
+        $code = $module['code'] ?? '';
+
+        return self::HOME_MODULE_ORDER[$code] ?? 1000;
     }
 
     private function isBanliHeroCode(string $code): bool
