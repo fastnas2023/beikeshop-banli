@@ -69,14 +69,14 @@
         };
       };
     </script>
-    <script src="{{ asset('build/beike/shop/banli_theme/js/app.js') }}"></script>
+    <script src="{{ asset('build/beike/shop/banli_theme/js/app.js') }}?v=banli-layout-20260623-1"></script>
     <!-- Removed BeikeShop default app.css to prevent conflicts -->
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('build/beike/shop/banli_theme/css/app.css') }}"> -->
 
     <!-- Cyber Theme CSS (Load last to override defaults) -->
     <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bootstrap">
     <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/vendors.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/style.css') }}?v=banli-footer-20260502" rel="stylesheet" type="text/css">
+    <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/style.css') }}?v=banli-layout-20260623-1" rel="stylesheet" type="text/css">
     <link href="{{ asset('build/beike/shop/banli_theme/banli_theme/css/colors/scheme-01.css') }}" rel="stylesheet" type="text/css" id="colors">
 
     @if(request()->query('design') == 1)
@@ -115,6 +115,110 @@
 
     @renderStyles
     <style>
+      :root {
+        --banli-header-height: 104px;
+        --banli-z-content: 0;
+        --banli-z-sticky: 50;
+        --banli-z-header: 1000;
+        --banli-z-dropdown: 1100;
+        --banli-z-backdrop: 2190;
+        --banli-z-offcanvas: 2200;
+        --banli-z-modal: 2400;
+        --banli-z-editor: 9000;
+      }
+      html {
+        background: #101139;
+        overflow-y: auto;
+        scrollbar-color: rgba(255,255,255,0.28) #101139;
+      }
+      body {
+        background: #101435;
+        min-height: 100%;
+        overflow-x: clip !important;
+        overflow-y: visible !important;
+      }
+      html::-webkit-scrollbar {
+        width: 8px;
+      }
+      html::-webkit-scrollbar-track {
+        background: #101139;
+      }
+      html::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.28);
+        border-radius: 999px;
+      }
+      html::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,0.42);
+      }
+      #wrapper {
+        overflow-x: clip !important;
+        overflow-y: visible !important;
+      }
+      .scrollbar,
+      body:not(.page-home) .scrollbar-v,
+      body:not(.page-home) .float-text {
+        display: none !important;
+      }
+      #offcanvas-mobile-menu,
+      #offcanvas-right-cart,
+      #offcanvas-search-top {
+        position: fixed !important;
+        z-index: var(--banli-z-offcanvas);
+      }
+      #offcanvas-mobile-menu,
+      #offcanvas-right-cart {
+        top: 0 !important;
+        bottom: 0 !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
+      }
+      .banli-product-quick-view-layer {
+        overflow: hidden !important;
+        border: 1px solid rgba(0, 210, 255, 0.24);
+        border-radius: 12px;
+        background: #101435;
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+      }
+      .banli-product-quick-view-layer .layui-layer-content,
+      .banli-product-quick-view-layer iframe {
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        border-radius: inherit;
+        background: #101435;
+      }
+      .banli-product-quick-view-layer .layui-layer-setwin {
+        top: 12px;
+        right: 12px;
+        z-index: 2;
+      }
+      .banli-product-quick-view-layer .layui-layer-setwin .layui-layer-close2 {
+        right: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: rgba(16, 20, 53, 0.82);
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.14);
+      }
+      body.page-product-quick-view #wrapper {
+        padding-top: 0 !important;
+      }
+      @media (max-width: 575.98px) {
+        .banli-product-quick-view-layer {
+          border-radius: 0;
+          border-left: 0;
+          border-right: 0;
+        }
+      }
+      @media (max-width: 991.98px) {
+        :root {
+          --banli-header-height: 176px;
+        }
+      }
       header.smaller {
         background: rgba(16, 20, 53, 0.75) !important;
         backdrop-filter: blur(16px) !important;
@@ -131,14 +235,14 @@
       }
       /* Prevent content overlap with absolute header on non-home pages */
       body:not(.page-home):not(.banli-news-list):not(.banli-news-single) #wrapper {
-        padding-top: 104px;
+        padding-top: var(--banli-header-height, 104px);
       }
       body:not(.page-home):not(.banli-news-list):not(.banli-news-single) header.transparent {
         background: #101435;
         position: fixed;
         width: 100%;
         top: 0;
-        z-index: 1000;
+        z-index: var(--banli-z-header);
       }
       body:not(.page-home) .breadcrumb-filter {
         padding-top: 20px;
@@ -174,10 +278,17 @@
         overscroll-behavior: contain;
         border-bottom: 1px solid rgba(0, 210, 255, 0.2);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        z-index: 2200;
+        z-index: var(--banli-z-offcanvas);
       }
-      .offcanvas-backdrop {
-        z-index: 2190;
+      body.banli-search-open .offcanvas-backdrop,
+      body.banli-search-open .modal-backdrop {
+        z-index: var(--banli-z-backdrop);
+      }
+      .dropdown-menu {
+        z-index: var(--banli-z-dropdown);
+      }
+      .modal {
+        z-index: var(--banli-z-modal) !important;
       }
       #offcanvas-search-top .container {
         max-width: 1304px;
@@ -377,6 +488,7 @@
         display: flex;
         justify-content: center;
         gap: 8px;
+        min-width: 0;
         transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
       .product-wrap:hover .image .button-wrap {
@@ -384,24 +496,36 @@
         opacity: 1;
       }
       .product-wrap .image .button-wrap .btn {
-        background-color: rgba(16, 20, 53, 0.85) !important;
-        border: 1px solid rgba(0, 210, 255, 0.4) !important;
+        background:
+          linear-gradient(180deg, rgba(38, 43, 82, 0.92), rgba(25, 30, 62, 0.92)) !important;
+        border: 1px solid rgba(144, 118, 255, 0.42) !important;
         color: #fff !important;
         border-radius: 50px;
         padding: 8px 16px;
         transition: all 0.3s ease;
-        backdrop-filter: blur(8px);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         font-size: 13px;
         display: flex;
         align-items: center;
         gap: 5px;
+        min-width: 0;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+      }
+      .product-wrap .image .button-wrap .btn-add-cart {
+        background:
+          linear-gradient(135deg, rgba(122, 76, 243, 0.96), rgba(45, 111, 242, 0.94)) !important;
+        border-color: rgba(255, 255, 255, 0.18) !important;
+        color: #fff !important;
+        box-shadow: 0 14px 30px rgba(74, 90, 220, 0.34);
       }
       .product-wrap .image .button-wrap .btn:hover {
-        background-color: #00d2ff !important;
-        border-color: #00d2ff !important;
-        color: #000 !important;
+        background:
+          linear-gradient(135deg, rgba(151, 105, 255, 0.98), rgba(54, 126, 255, 0.96)) !important;
+        border-color: rgba(255, 255, 255, 0.26) !important;
+        color: #fff !important;
         transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 210, 255, 0.5);
+        box-shadow: 0 16px 34px rgba(74, 90, 220, 0.42);
       }
       .product-wrap .product-bottom-info {
         padding-top: 15px;
@@ -473,6 +597,27 @@
 
   <script>
     @hook('layout.master.script.before')
+
+    (function () {
+      let lastHeight = 0;
+
+      function updateBanliHeaderHeight() {
+        const header = document.querySelector('header');
+        const height = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+
+        if (height > 0 && height !== lastHeight) {
+          lastHeight = height;
+          document.documentElement.style.setProperty('--banli-header-height', height + 'px');
+        }
+      }
+
+      window.updateBanliHeaderHeight = updateBanliHeaderHeight;
+      document.addEventListener('DOMContentLoaded', updateBanliHeaderHeight);
+      window.addEventListener('load', updateBanliHeaderHeight);
+      window.addEventListener('resize', bk.debounce(updateBanliHeaderHeight, 120));
+      window.addEventListener('orientationchange', bk.debounce(updateBanliHeaderHeight, 120));
+      window.addEventListener('scroll', bk.debounce(updateBanliHeaderHeight, 80), {passive: true});
+    }());
 
     const config = {
       isLogin: !!{{ current_customer()->id ?? 'null' }},

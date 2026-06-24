@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'collection' => '系列',
+    'categories' => '分类',
+    'featured_products' => '精选商品',
+    'rich_text_default_question' => '如何编辑这个内容区？',
+    'rich_text_default_answer' => '请在装修编辑器中替换为店铺内容、商品说明或客服信息。',
+    'marquee_new_arrivals' => '新品上架',
+    'marquee_curated_finds' => '精选好物',
+    'marquee_fast_checkout' => '快速结账',
+    'marquee_member_offers' => '会员优惠',
+    'marquee_quality_picks' => '品质精选',
+    'marquee_fresh_styles' => '新鲜风格',
+    'subscribe_subtitle' => '邮件订阅',
+    'subscribe_title' => '获取店铺更新',
+    'subscribe_copy' => '订阅新品、产品资讯和会员优惠。',
+    'subscribe_placeholder' => '请输入邮箱地址',
+    'subscribe_button' => '订阅',
+    'subscribe_option' => '向我发送产品资讯和专属优惠',
+    'subscribe_note' => '你可以随时取消订阅。查看',
+    'privacy_policy' => '隐私政策',
+    'terms' => '条款',
+    'subscribe_invalid_email' => '请输入正确的邮箱地址。',
+    'subscribe_duplicate' => '该邮箱已经订阅。',
+    'subscribe_success' => '订阅成功。',
+];

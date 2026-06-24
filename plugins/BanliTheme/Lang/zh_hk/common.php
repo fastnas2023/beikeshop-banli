@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'collection' => '系列',
+    'categories' => '分類',
+    'featured_products' => '精選商品',
+    'rich_text_default_question' => '如何編輯這個內容區？',
+    'rich_text_default_answer' => '請在裝修編輯器中替換為店鋪內容、商品說明或客服資訊。',
+    'marquee_new_arrivals' => '新品上架',
+    'marquee_curated_finds' => '精選好物',
+    'marquee_fast_checkout' => '快速結帳',
+    'marquee_member_offers' => '會員優惠',
+    'marquee_quality_picks' => '品質精選',
+    'marquee_fresh_styles' => '新鮮風格',
+    'subscribe_subtitle' => '郵件訂閱',
+    'subscribe_title' => '獲取店鋪更新',
+    'subscribe_copy' => '訂閱新品、產品資訊和會員優惠。',
+    'subscribe_placeholder' => '請輸入郵箱地址',
+    'subscribe_button' => '訂閱',
+    'subscribe_option' => '向我發送產品資訊和專屬優惠',
+    'subscribe_note' => '你可以隨時取消訂閱。查看',
+    'privacy_policy' => '私隱政策',
+    'terms' => '條款',
+    'subscribe_invalid_email' => '請輸入正確的郵箱地址。',
+    'subscribe_duplicate' => '該郵箱已經訂閱。',
+    'subscribe_success' => '訂閱成功。',
+];

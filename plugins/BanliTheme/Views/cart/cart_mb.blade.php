@@ -58,7 +58,7 @@
       <p class="text-muted">{{ __('shop/carts.go_buy') }}</p>
     </div>
     <div class="empty-cart-action">
-      <a href="{{ shop_route('home.index') }}" class="btn btn-primary">{{ __('shop/carts.go_shopping') }}</a>
+      <a href="{{ shop_route('home.index') }}" class="btn-main banli-empty-cart-page-btn">{{ __('shop/carts.go_shopping') }}</a>
     </div>
   </div>
 </div>

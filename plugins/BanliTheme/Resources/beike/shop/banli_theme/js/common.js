@@ -44,10 +44,13 @@ export default {
       ...extraParams
     } = params;
 
-    const $btn = $(event);
-    const btnHtml = $btn.html();
+    const $btn = event ? $(event) : $();
+    const hasButton = $btn.length > 0;
+    const btnHtml = hasButton ? $btn.html() : '';
     const loadHtml = '<span class="spinner-border spinner-border-sm"></span>';
-    $btn.html(loadHtml).prop('disabled', true);
+    if (hasButton) {
+      $btn.html(loadHtml).prop('disabled', true);
+    }
     $(document).find('.tooltip').remove();
 
     const postData = {
@@ -57,7 +60,7 @@ export default {
       ...extraParams
     };
 
-    $http.post('/carts', postData, {hload: !!event}).then((res) => {
+    return $http.post('/carts', postData, {hload: hasButton}).then((res) => {
       this.getCarts();
       if (!isBuyNow) {
         layer.msg(res.message)
@@ -66,7 +69,11 @@ export default {
       if (callback) {
         callback(res)
       }
-    }).finally(() => {$btn.html(btnHtml).prop('disabled', false)})
+    }).finally(() => {
+      if (hasButton) {
+        $btn.html(btnHtml).prop('disabled', false)
+      }
+    })
   },
 
   addWishlist(id, event) {
@@ -116,15 +123,22 @@ export default {
   },
 
   productQuickView(id, callback) {
-    let w = window.innerWidth > 1000 ? '1000px' : '95%';
-    let h = window.innerWidth > 1000 ? '600px' : '90%';
+    const isPhone = window.innerWidth <= 575;
+    const inset = isPhone ? 0 : (window.innerWidth >= 992 ? 64 : 24);
+    const availableWidth = window.innerWidth - inset;
+    const availableHeight = window.innerHeight - inset;
+    const w = isPhone ? `${window.innerWidth}px` : `${Math.max(320, Math.min(1120, availableWidth))}px`;
+    const h = isPhone ? `${window.innerHeight}px` : `${Math.max(520, Math.min(760, availableHeight))}px`;
+
     layer.open({
       type: 2,
       title: '',
       shadeClose: true,
       scrollbar: false,
+      resize: false,
+      shade: [0.42, '#050713'],
       area: [w, h],
-      skin: 'login-pop-box',
+      skin: 'banli-product-quick-view-layer',
       content: `products/${id}?iframe=true`
     });
   },

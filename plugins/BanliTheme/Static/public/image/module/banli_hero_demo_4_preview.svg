@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="338" viewBox="0 0 600 338" role="img" aria-label="Banli Hero 04 preview">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0e1435"/>
+      <stop offset=".7" stop-color="#172255"/>
+      <stop offset="1" stop-color="#0d1030"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" x2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity=".06"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="338" rx="18" fill="url(#bg)"/>
+  <path d="M0 112 C120 70 188 144 292 104 S472 54 600 95" fill="none" stroke="#4dd6ff" stroke-opacity=".16" stroke-width="3"/>
+  <text x="56" y="88" fill="#a38cff" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="800">LEFT COPY</text>
+  <text x="56" y="140" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="42" font-weight="900">Innovate</text>
+  <text x="56" y="184" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="42" font-weight="900">Integrate</text>
+  <text x="56" y="228" fill="#cdd3e8" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700">Background carousel and CTA</text>
+  <rect x="56" y="252" width="118" height="34" rx="17" fill="#7654f5"/>
+  <text x="115" y="274" text-anchor="middle" fill="#fff" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="800">BUY NOW</text>
+  <rect x="352" y="58" width="178" height="222" rx="18" fill="url(#card)" stroke="#ffffff" stroke-opacity=".22"/>
+  <rect x="376" y="84" width="130" height="154" rx="14" fill="#ffffff" opacity=".18"/>
+  <circle cx="441" cy="158" r="36" fill="#ffffff" opacity=".18"/>
+  <circle cx="410" cy="302" r="5" fill="#ffffff" opacity=".4"/>
+  <rect x="425" y="297" width="34" height="10" rx="5" fill="#20d5ff"/>
+  <circle cx="474" cy="302" r="5" fill="#ffffff" opacity=".4"/>
+</svg>

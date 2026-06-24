@@ -6,9 +6,9 @@
     <div class="{{ !empty($content['module_size']) ? $content['module_size'] : 'container'  }} position-relative banli-news-home-container">
       <div class="text-center mb-5">
         <h2 class="display-5 fw-bold mb-3">
-          <span class="neon-text-gradient">{{ $content['title'] ?: 'Latest Tech News & Updates' }}</span>
+          <span class="neon-text-gradient">{{ $content['title'] ?: 'Latest News & Updates' }}</span>
         </h2>
-        <p class="text-white-50 neon-subtitle">Stay informed with the latest insights from the AI & Tech community</p>
+        <p class="text-white-50 neon-subtitle">Share store updates, buying guides, brand stories, or service information.</p>
       </div>
 
       @if ($content['items'])
@@ -61,7 +61,7 @@
   </div>
 
   <style>
-  /* Aivent Dark Theme Styles for Tech News */
+  /* Dark module styles for news and article cards. */
   .aivent-dark-section {
     background-color: #0b0b13; /* Dark background */
     position: relative;

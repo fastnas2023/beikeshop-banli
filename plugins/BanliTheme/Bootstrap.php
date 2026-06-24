@@ -50,8 +50,11 @@ class Bootstrap
         });
 
         add_hook_filter('service.design.module.content', function ($content) {
-            if ($this->isBanliHeroCode($content['module_code'] ?? '')) {
-                $content = $this->normalizeHeroContent($content, $content['module_code']);
+            $code = $content['module_code'] ?? '';
+            if ($this->isBanliHeroCode($code)) {
+                $content = $this->normalizeHeroContent($content, $code);
+            } elseif ($code) {
+                $content = $this->normalizeLegacyDesignModuleContent($code, $content);
             }
 
             return $content;
@@ -74,6 +77,8 @@ class Bootstrap
                 $style = $module['content']['hero_style'] ?? 'demo_1';
                 $code = $this->heroCodeFromStyle($style);
             } elseif (! $this->isBanliHeroCode($code)) {
+                $module['content'] = $this->normalizeLegacyDesignModuleContent($code, $module['content'] ?? []);
+                $settings['modules'][$index] = $module;
                 continue;
             }
 
@@ -180,6 +185,7 @@ class Bootstrap
     private function normalizeHeroContent(array $content, string $code): array
     {
         $style = $this->heroStyleFromCode($code);
+        $defaults = $this->heroDefaults($style);
         $content['hero_style'] = $style;
         $content['module_size'] = $content['module_size'] ?? 'w-100';
         $content['style'] = $content['style'] ?? ['background_color' => ''];
@@ -195,11 +201,322 @@ class Bootstrap
             'src' => ['zh_cn' => $content['video_src'] ?? 'banli_theme-assets/aivent/video/2.mp4', 'en' => $content['video_src'] ?? 'banli_theme-assets/aivent/video/2.mp4'],
             'alt' => ['zh_cn' => '', 'en' => ''],
         ];
-        $content['btn1_link'] = $this->normalizeHeroLink($content['btn1_link'] ?? ($style === 'demo_1' ? '#latest-products' : '#section-tickets'));
-        $content['btn2_link'] = $this->normalizeHeroLink($content['btn2_link'] ?? ($style === 'demo_1' ? '#top-collections' : '#section-schedule'));
+        $content['btn1_link'] = $this->normalizeHeroLink($content['btn1_link'] ?? '#latest-products');
+        $content['btn2_link'] = $this->normalizeHeroLink($content['btn2_link'] ?? '#top-collections');
         $content['slider_images'] = $content['slider_images'] ?? [];
+        $content = $this->normalizeLegacyHeroCopy($content, $defaults);
 
         return $content;
+    }
+
+    private function heroDefaults(string $style): array
+    {
+        $defaults = [
+            'demo_1' => [
+                'title' => 'Banli Future Store',
+                'sub_title' => 'Next Commerce Experience',
+                'description' => 'Curated drops, flexible modules, and immersive motion for a storefront that feels current on every screen.',
+                'date' => 'New Season 2026',
+                'location' => 'Global Online Store',
+                'btn1_text' => 'Shop Now',
+                'btn1_link' => '#latest-products',
+                'btn2_text' => 'View Collection',
+                'btn2_link' => '#top-collections',
+                'countdown_title' => 'Limited Drop',
+                'countdown_sub_title' => 'New Arrivals Live',
+                'countdown_address' => "Banli Studio,\nGlobal Online",
+            ],
+            'demo_2' => [
+                'title' => 'Curated essentials for modern living.',
+                'sub_title' => 'New Season Collection',
+                'description' => 'Explore new arrivals, standout pieces, and a shopping experience tuned for every screen.',
+                'location' => 'Online Store',
+            ],
+            'demo_3' => [
+                'title' => 'Fresh',
+                'sub_title' => 'Arrivals',
+                'description' => 'A focused edit of products, stories, and seasonal picks ready for your next order.',
+                'location' => 'Online Store',
+            ],
+            'demo_4' => [
+                'title' => 'Discover the season\'s featured collection',
+                'sub_title' => 'Featured Collection',
+                'description' => 'Bring the latest products, offers, and brand moments into a storefront that feels polished from first view to checkout.',
+                'location' => 'Online Store',
+            ],
+            'demo_5' => [
+                'title' => 'Drop. Style. Repeat.',
+                'sub_title' => 'Limited Collection',
+                'description' => 'A focused release of fresh picks and member offers, built for quick browsing and confident checkout.',
+                'location' => 'Online Store',
+                'btn1_text' => 'Shop Now',
+                'btn1_link' => '#latest-products',
+                'btn2_text' => 'View Collection',
+                'btn2_link' => '#top-collections',
+                'countdown_title' => 'Limited Drop',
+                'countdown_sub_title' => 'New Arrivals Live',
+                'countdown_address' => "Banli Studio,\nGlobal Online",
+            ],
+        ];
+
+        return $defaults[$style] ?? $defaults['demo_1'];
+    }
+
+    private function normalizeLegacyHeroCopy(array $content, array $defaults): array
+    {
+        $rules = [
+            'title' => ['AI Summit 2026', 'The Future Intelligent'],
+            'sub_title' => ['The Future of Intelligence'],
+            'date' => ['October 1-5, 2026', 'October 1–5, 2026'],
+            'location' => ['San Francisco, CA'],
+            'btn1_text' => ['Get Tickets'],
+            'btn2_text' => ['View Schedule'],
+            'countdown_title' => ['Hurry Up!'],
+            'countdown_sub_title' => ['Book Your Seat Now'],
+            'countdown_address' => ['121 AI Blvd'],
+        ];
+
+        foreach ($rules as $field => $legacyValues) {
+            if (! array_key_exists($field, $defaults)) {
+                continue;
+            }
+
+            if (! array_key_exists($field, $content) || $this->matchesLegacyText($content[$field], $legacyValues)) {
+                $content[$field] = $this->localizedDefault($defaults[$field]);
+            }
+        }
+
+        if ($this->matchesLegacyLink($content['btn1_link'] ?? null)) {
+            $content['btn1_link'] = $this->normalizeHeroLink($defaults['btn1_link'] ?? '#latest-products');
+        }
+
+        if ($this->matchesLegacyLink($content['btn2_link'] ?? null)) {
+            $content['btn2_link'] = $this->normalizeHeroLink($defaults['btn2_link'] ?? '#top-collections');
+        }
+
+        return $content;
+    }
+
+    private function localizedDefault(string $value): array
+    {
+        return [
+            'zh_cn' => $value,
+            'en' => $value,
+        ];
+    }
+
+    private function matchesLegacyText($value, array $legacyValues): bool
+    {
+        $values = is_array($value) ? array_filter($value, 'is_scalar') : [$value];
+
+        foreach ($values as $text) {
+            $normalized = $this->normalizeHeroText((string) $text);
+
+            foreach ($legacyValues as $legacyValue) {
+                $legacyNormalized = $this->normalizeHeroText($legacyValue);
+                if ($normalized === $legacyNormalized || str_contains($normalized, $legacyNormalized)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function matchesLegacyLink($link): bool
+    {
+        if (is_array($link)) {
+            $link = $link['link'] ?? $link['value'] ?? '';
+        }
+
+        $link = strtolower(trim((string) $link));
+
+        return in_array($link, ['tickets.html', '#section-tickets', '#section-schedule'], true);
+    }
+
+    private function normalizeHeroText(string $value): string
+    {
+        $value = str_replace(['–', '—'], '-', $value);
+        $value = preg_replace('/\s+/', ' ', trim($value));
+
+        return strtolower($value);
+    }
+
+    private function normalizeLegacyDesignModuleContent(string $code, array $content): array
+    {
+        if (! $this->containsLegacyEventCopy($content)) {
+            return $content;
+        }
+
+        if ($code === 'img_text_banner') {
+            return array_replace($content, [
+                'title' => $this->localizedDefault('Curated Products for Modern Stores'),
+                'sub_title' => $this->localizedDefault('[ About the Brand ]'),
+                'description' => $this->localizedDefault('Use this section to introduce your product selection, service promise, or independent brand story.'),
+            ]);
+        }
+
+        if ($code === 'rich_text') {
+            $content['text'] = $this->localizedDefault($this->legacyRichTextReplacement($content));
+            unset($content['content']);
+
+            return $content;
+        }
+
+        if ($code === 'img_text_banner_multiple') {
+            unset($content['description']);
+            $content['title'] = $this->localizedDefault('Why Customers Choose Us');
+            $content['sub_title'] = $this->localizedDefault('Brand Advantages');
+
+            return $content;
+        }
+
+        if ($code === 'tab_product') {
+            unset($content['images']);
+            $content['title'] = $this->localizedDefault('Featured Products');
+            $content['sub_title'] = $this->localizedDefault('Collection');
+
+            return $content;
+        }
+
+        return $content;
+    }
+
+    private function legacyRichTextReplacement(array $content): string
+    {
+        $text = implode("\n", $this->flattenStrings($content));
+
+        if (str_contains($text, 'section-schedule')) {
+            return <<<'HTML'
+<section id="section-service-flow" class="bg-dark section-dark text-light">
+  <div class="container">
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-6 text-center">
+        <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Service Flow</div>
+        <h2 class="wow fadeInUp" data-wow-delay=".2s">From Browsing to Delivery</h2>
+        <p class="lead wow fadeInUp" data-wow-delay=".4s">Use this section to explain shopping steps, service milestones, or brand processes.</p>
+      </div>
+    </div>
+    <div class="row g-4 mt-3">
+      <div class="col-md-4">
+        <div class="bg-dark-2 rounded-1 p-4 h-100">
+          <h4>Discover</h4>
+          <p class="mb-0 text-white-50">Feature new arrivals, product stories, and curated collections.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bg-dark-2 rounded-1 p-4 h-100">
+          <h4>Order</h4>
+          <p class="mb-0 text-white-50">Guide customers through secure checkout and clear order confirmation.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bg-dark-2 rounded-1 p-4 h-100">
+          <h4>Support</h4>
+          <p class="mb-0 text-white-50">Show delivery updates, after-sales care, and service commitments.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+HTML;
+        }
+
+        if (str_contains($text, 'section-venue') || str_contains($text, '121 AI Blvd')) {
+            return <<<'HTML'
+<section id="section-store-info" class="bg-dark section-dark text-light pt-80 relative">
+  <div class="container relative z-2">
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-6 text-center">
+        <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Store Information</div>
+        <h2 class="wow fadeInUp" data-wow-delay=".2s">Visit & Contact</h2>
+        <p class="lead wow fadeInUp" data-wow-delay=".6s">Use this section for showroom details, service contacts, or brand location information.</p>
+      </div>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-8 text-center">
+        <div class="bg-dark-2 rounded-1 p-4 wow fadeInUp">
+          <h4 class="mb-2">Store Contact</h4>
+          <p class="mb-0 text-white-50">Configure address, phone, or email in store settings.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+HTML;
+        }
+
+        return <<<'HTML'
+<section id="section-faq" class="bg-dark section-dark text-light">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Customer Help</div>
+        <h2 class="wow fadeInUp" data-wow-delay=".2s">Frequently Asked Questions</h2>
+      </div>
+      <div class="col-lg-7">
+        <div class="accordion s2 wow fadeInUp">
+          <div class="accordion-section">
+            <div class="accordion-section-title" data-tab="#accordion-a1">How do I edit this section?</div>
+            <div class="accordion-section-content" id="accordion-a1">Open the design builder and replace this placeholder with store content, product notes, or customer information.</div>
+            <div class="accordion-section-title" data-tab="#accordion-a2">What should this area contain?</div>
+            <div class="accordion-section-content" id="accordion-a2">Use it for shipping, returns, product care, warranty, service process, or brand FAQs.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+HTML;
+    }
+
+    private function containsLegacyEventCopy($value): bool
+    {
+        $needles = [
+            'AI Summit',
+            'AI Innovators',
+            'artificial intelligence',
+            'The Future of Intelligence',
+            'Get Tickets',
+            'View Schedule',
+            'Ticket Options',
+            'Choose Your Pass',
+            'section-schedule',
+            '121 AI Blvd',
+            'San Francisco Tech Pavilion',
+            'contact@aivent.com',
+            'What ticket options are available',
+            'Virtual Ticket',
+            'Full Access Pass',
+        ];
+
+        foreach ($this->flattenStrings($value) as $text) {
+            foreach ($needles as $needle) {
+                if (stripos($text, $needle) !== false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function flattenStrings($value): array
+    {
+        if (is_string($value)) {
+            return [$value];
+        }
+
+        if (! is_array($value)) {
+            return [];
+        }
+
+        $strings = [];
+        foreach ($value as $item) {
+            array_push($strings, ...$this->flattenStrings($item));
+        }
+
+        return $strings;
     }
 
     private function normalizeHeroLink($link): array

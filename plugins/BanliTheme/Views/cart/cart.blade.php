@@ -7,6 +7,38 @@
   <script src="{{ asset('vendor/element-ui/index.js') }}"></script>
   <script src="{{ asset('vendor/scrolltofixed/jquery-scrolltofixed-min.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('vendor/element-ui/index.css') }}">
+  <style>
+    .page-cart .empty-cart-action .banli-empty-cart-page-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 168px;
+      min-height: 50px;
+      padding: 0 24px;
+      border-radius: 999px;
+      color: #fff !important;
+      text-decoration: none;
+      box-shadow: 0 12px 30px rgba(41, 117, 252, .24);
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+    }
+
+    .page-cart .empty-cart-action .banli-empty-cart-page-btn:hover,
+    .page-cart .empty-cart-action .banli-empty-cart-page-btn:focus-visible {
+      color: #fff !important;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 34px rgba(41, 117, 252, .30);
+      filter: brightness(1.03);
+    }
+
+    .page-cart .empty-cart-action .banli-empty-cart-page-btn:active {
+      color: #fff !important;
+      transform: translateY(0) scale(.985);
+      box-shadow: 0 8px 18px rgba(41, 117, 252, .18);
+      filter: brightness(.98);
+    }
+  </style>
 @endpush
 
 @section('content')
@@ -118,7 +150,7 @@
           <p class="text-secondary">{{ __('shop/carts.go_buy') }}</p>
         </div>
         <div class="empty-cart-action">
-          <a href="{{ shop_route('home.index') }}" class="btn btn-neon">{{ __('shop/carts.go_shopping') }}</a>
+          <a href="{{ shop_route('home.index') }}" class="btn-main banli-empty-cart-page-btn">{{ __('shop/carts.go_shopping') }}</a>
         </div>
       </div>
     </div>

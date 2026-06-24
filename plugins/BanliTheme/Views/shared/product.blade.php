@@ -1,4 +1,10 @@
-<div class="product-wrap {{ request('style_list') ?? '' }} {{ $style_list ?? '' }}">
+@php
+  $productCardMode = $mode ?? $style_list ?? 'grid';
+  $productCardMode = in_array($productCardMode, ['grid', 'list'], true) ? $productCardMode : 'grid';
+  $productCardShowActions = $show_actions ?? true;
+@endphp
+
+<div class="product-wrap {{ $productCardMode === 'list' ? 'list' : 'product-card-grid' }}" data-card-mode="{{ $productCardMode }}">
   <div class="image position-relative overflow-hidden rounded">
     @hook('product_list.item.image.tag')
 
@@ -20,7 +26,7 @@
         @endif
       @endhookwrapper
     </a>
-    @if (!request('style_list') || request('style_list') == 'grid' || ($style_list ?? '' == 'grid'))
+    @if ($productCardShowActions && $productCardMode === 'grid')
       <div class="button-wrap d-flex justify-content-center gap-2 px-2">
         @hookwrapper('shared.product.btn.add_cart')
         <button
@@ -85,6 +91,8 @@
         <span class="price-new text-primary fw-bold">{{ $product['price_format'] }}</span>
         @if (isset($product['origin_price']) && $product['price'] != $product['origin_price'] && $product['origin_price'] > 0)
           <span class="price-old text-decoration-line-through text-white-50 ms-2 small">{{ $product['origin_price_format'] ?? format_price($product['origin_price']) }}</span>
+        @else
+          <span class="price-old price-old-placeholder ms-2 small" aria-hidden="true">&nbsp;</span>
         @endif
       </div>
     @else
@@ -94,7 +102,7 @@
     @endif
     @endhookwrapper
 
-    @if (request('style_list') == 'list' || ($style_list ?? '' == 'list'))
+    @if ($productCardShowActions && $productCardMode === 'list')
       <div class="button-wrap mt-3 d-flex gap-2">
         <button
           class="btn btn-dark text-light btn-add-cart rounded-pill px-4"

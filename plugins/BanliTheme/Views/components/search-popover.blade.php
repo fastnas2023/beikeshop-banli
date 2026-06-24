@@ -34,7 +34,7 @@
         <div class="row g-3 g-lg-4 {{ is_mobile() == 'list' ? 'product-list-wrap' : ''}}">
           @foreach ($products as $product)
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-              @include('shared.product', ['style_list' => is_mobile() ? 'list' : ''])
+              @include('shared.product', ['mode' => is_mobile() ? 'list' : 'grid', 'show_actions' => true])
             </div>
           @endforeach
         </div>
@@ -55,6 +55,16 @@
       $('#offcanvas-search-top').addClass('offcanvas-top');
     }
 
+    const searchOffcanvas = document.getElementById('offcanvas-search-top');
+    if (searchOffcanvas) {
+      searchOffcanvas.addEventListener('show.bs.offcanvas', function () {
+        document.body.classList.add('banli-search-open');
+      });
+      searchOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
+        document.body.classList.remove('banli-search-open');
+      });
+    }
+
     $(function () {
       const $input = $('.search-popover-input');
       const $wrap = $('.search-pop-products-wrap');
@@ -62,8 +72,9 @@
       const $searchList = $wrap.find('.search-products-list');
       const $title = $('.hot-products-title');
       const isMobile = @json(is_mobile());
+      let searchRequestId = 0;
 
-      $input.on('input', bk.debounce(function () {
+      $input.off('input.banliSearch').on('input.banliSearch', bk.debounce(function () {
         const keyword = $input.val().trim();
 
         $wrap.addClass('loading');
@@ -71,6 +82,7 @@
         if (keyword.length > 0) {
           topSearchGetData(keyword)
         } else {
+          searchRequestId += 1;
           $wrap.removeClass('loading');
           $hotList.removeClass('d-none');
           $searchList.addClass('d-none').find('.row').empty();
@@ -78,14 +90,14 @@
         }
       }, 300));
 
-      $(document).on('click', '.search-pop-products-show-all .btn', function () {
+      $(document).off('click.banliSearchShowAll', '.search-pop-products-show-all .btn').on('click.banliSearchShowAll', '.search-pop-products-show-all .btn', function () {
         $(".search-popover-input").trigger({
           type: "keydown",
           keyCode: 13
         });
       });
 
-      $('a[href="#offcanvas-search-top"]').on('click', function () {
+      $('a[href="#offcanvas-search-top"]').off('click.banliSearchOpen').on('click.banliSearchOpen', function () {
         const keyword = $input.val().trim();
         if (keyword) {
           topSearchGetData(keyword)
@@ -96,13 +108,13 @@
         }, 180);
       })
 
-      $input.on('keydown', function (event) {
+      $input.off('keydown.banliSearch').on('keydown.banliSearch', function (event) {
         if (event.key === 'Enter' || event.keyCode === 13) {
           searchSubmit();
         }
       });
 
-      $('.search-popover-submit').on('click', searchSubmit);
+      $('.search-popover-submit').off('click.banliSearch').on('click.banliSearch', searchSubmit);
 
       function searchSubmit() {
         const keyword = $input.val().trim();
@@ -117,7 +129,12 @@
 
       function topSearchGetData(keyword) {
         const searchListHeight = $searchList.height();
+        const requestId = ++searchRequestId;
         $http.get('{{ shop_route('products.autocomplete') }}', { name: keyword, html: true, limit: 5 }, { hload: true }).then(res => {
+          if (requestId !== searchRequestId || keyword !== $input.val().trim()) {
+            return;
+          }
+
           $hotList.addClass('d-none');
           if (searchListHeight) {
             $searchList.height(searchListHeight);
@@ -130,7 +147,9 @@
           $title.text(res ? '{{ __("shop/products.search_result") }}' : '{{ __("shop/products.hot_products") }}');
           $title.toggleClass('d-none', !res);
         }).finally(() => {
-          $wrap.removeClass('loading');
+          if (requestId === searchRequestId) {
+            $wrap.removeClass('loading');
+          }
         });
       }
     })

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="338" viewBox="0 0 600 338" role="img" aria-label="Banli Hero 02 preview">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#11183f"/>
+      <stop offset=".5" stop-color="#242056"/>
+      <stop offset="1" stop-color="#0d1233"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop offset="0" stop-color="#7b55ff"/>
+      <stop offset="1" stop-color="#20d5ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="338" rx="18" fill="url(#bg)"/>
+  <circle cx="100" cy="82" r="84" fill="#7450ff" opacity=".20"/>
+  <circle cx="506" cy="260" r="110" fill="#20d5ff" opacity=".13"/>
+  <rect x="42" y="74" width="134" height="190" rx="16" fill="#ffffff" opacity=".10" stroke="#ffffff" stroke-opacity=".16"/>
+  <rect x="424" y="74" width="134" height="190" rx="16" fill="#ffffff" opacity=".10" stroke="#ffffff" stroke-opacity=".16"/>
+  <rect x="204" y="46" width="192" height="248" rx="18" fill="#ffffff" opacity=".16" stroke="#ffffff" stroke-opacity=".24"/>
+  <text x="300" y="128" text-anchor="middle" fill="#a38cff" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="800">CENTER SLIDER</text>
+  <text x="300" y="178" text-anchor="middle" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="42" font-weight="800">Future</text>
+  <text x="300" y="222" text-anchor="middle" fill="#f7f8ff" font-family="Inter,Arial,sans-serif" font-size="42" font-weight="800">Intelligent</text>
+  <rect x="235" y="246" width="130" height="34" rx="17" fill="url(#accent)"/>
+  <text x="300" y="268" text-anchor="middle" fill="#fff" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="800">EXPLORE</text>
+  <circle cx="278" cy="314" r="5" fill="#ffffff" opacity=".45"/>
+  <rect x="291" y="309" width="34" height="10" rx="5" fill="url(#accent)"/>
+  <circle cx="338" cy="314" r="5" fill="#ffffff" opacity=".45"/>
+</svg>

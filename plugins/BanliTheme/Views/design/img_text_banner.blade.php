@@ -45,7 +45,7 @@
                         @if ($isMp4)
                             <video src="{{ $mediaSrc }}" class="w-100 rotate-animation" autoplay loop muted playsinline style="border-radius: 12px; filter: drop-shadow(0 0 30px rgba(106, 17, 203, 0.3)); transform-origin: center center;"></video>
                         @else
-                            <img src="{{ $mediaSrc }}" class="w-100 rotate-animation" alt="{{ $content['title'] ?? 'Cyber Highlight' }}" style="border-radius: 12px; filter: drop-shadow(0 0 30px rgba(106, 17, 203, 0.3)); transform-origin: center center;">
+                            <img src="{{ $mediaSrc }}" class="w-100 rotate-animation" alt="{{ $content['title'] ?? 'Feature Highlight' }}" style="border-radius: 12px; filter: drop-shadow(0 0 30px rgba(106, 17, 203, 0.3)); transform-origin: center center;">
                         @endif
                     </div>
                 </div>

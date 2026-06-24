@@ -1,5 +1,5 @@
 <div class="module-item {{ $design ? 'module-item-design' : ''}}" id="module-{{ $module_id }}">
-    <section id="section-speakers" class="bg-dark section-dark text-light" style="{{ !empty($content['bg_color']) ? 'background-color: '.$content['bg_color'].'!important;' : '' }}">
+    <section id="section-featured-products" class="bg-dark section-dark text-light" style="{{ !empty($content['bg_color']) ? 'background-color: '.$content['bg_color'].'!important;' : '' }}">
         <div class="container">
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-6 relative z-3">
@@ -7,11 +7,11 @@
                           @if(!empty($content['sub_title']))
                           <div class="subtitle wow fadeInUp" data-wow-delay=".0s">{{ is_array($content['sub_title']) ? ($content['sub_title'][locale()] ?? $content['sub_title']['en'] ?? '') : $content['sub_title'] }}</div>
                           @else
-                          <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Speakers</div>
+                          <div class="subtitle wow fadeInUp" data-wow-delay=".0s">{{ __('BanliTheme::common.collection') }}</div>
                           @endif
                           
                           <h2 class="wow fadeInUp" data-wow-delay=".2s">
-                              {{ !empty($content['title']) ? (is_array($content['title']) ? $content['title'][locale()] ?? '' : $content['title']) : 'Meet the Visionaries' }}
+                              {{ !empty($content['title']) ? (is_array($content['title']) ? $content['title'][locale()] ?? '' : $content['title']) : __('BanliTheme::common.featured_products') }}
                           </h2>
                           
                           @if(!empty($content['description']))
@@ -122,26 +122,26 @@
                     </div>
                     @endforeach
                 @else
-                    <!-- Fallback Speakers -->
+                    <!-- Generic product placeholders for unconfigured modules. -->
                     @php
-                        $speakers = [
-                            ['name' => 'Joshua Henry', 'title' => 'Chief AI Scientist, OpenAI', 'img' => '1.webp'],
-                            ['name' => 'Sarah Jenkins', 'title' => 'VP of Data Science, DeepMind', 'img' => '2.webp'],
-                            ['name' => 'Michael Chen', 'title' => 'Head of AI Ethics, Microsoft', 'img' => '3.webp'],
-                            ['name' => 'Emily Rodriguez', 'title' => 'Founder & CEO, NeuralLabs', 'img' => '4.webp'],
-                            ['name' => 'David Lee', 'title' => 'Lead AI Architect, Google Brain', 'img' => '5.webp'],
-                            ['name' => 'Anna Patel', 'title' => 'Director of Research, Meta AI', 'img' => '6.webp'],
+                        $placeholderProducts = [
+                            ['name' => 'Featured Item', 'label' => 'New Arrival'],
+                            ['name' => 'Signature Product', 'label' => 'Best Seller'],
+                            ['name' => 'Seasonal Pick', 'label' => 'Limited Drop'],
+                            ['name' => 'Everyday Essential', 'label' => 'Customer Favorite'],
+                            ['name' => 'Premium Selection', 'label' => 'Curated Choice'],
+                            ['name' => 'Gift Collection', 'label' => 'Ready to Shop'],
                         ];
                     @endphp
-                    @foreach($speakers as $speaker)
+                    @foreach($placeholderProducts as $product)
                     <div class="col-lg-4 col-md-6">
                         <div class="hover bg-dark-2 rounded-1 overflow-hidden h-100 wow fadeIn">
                             <a href="javascript:void(0)" class="d-block overflow-hidden" style="aspect-ratio: 1/1;">
-                                <img src="https://madebydesignesia.com/themes/cyber/images/team/{{ $speaker['img'] }}" class="w-100 h-100 transition-transform hover-scale-1-1" style="object-fit: cover;" alt="">
+                                <img src="{{ asset('image/placeholder.png') }}" class="w-100 h-100 transition-transform hover-scale-1-1" style="object-fit: cover;" alt="">
                             </a>
                             <div class="p-4 text-center">
-                                <h4 class="mb-2"><a href="javascript:void(0)" class="text-light">{{ $speaker['name'] }}</a></h4>
-                                <div class="fs-16 text-gradient fw-bold">{{ $speaker['title'] }}</div>
+                                <h4 class="mb-2"><a href="javascript:void(0)" class="text-light">{{ $product['name'] }}</a></h4>
+                                <div class="fs-16 text-gradient fw-bold">{{ $product['label'] }}</div>
                             </div>
                         </div>
                     </div>

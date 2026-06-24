@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'collection' => 'Collection',
+    'categories' => 'Categories',
+    'featured_products' => 'Featured Products',
+    'rich_text_default_question' => 'How do I edit this section?',
+    'rich_text_default_answer' => 'Open the design builder and replace this placeholder with store content, product notes, or customer information.',
+    'marquee_new_arrivals' => 'New Arrivals',
+    'marquee_curated_finds' => 'Curated Finds',
+    'marquee_fast_checkout' => 'Fast Checkout',
+    'marquee_member_offers' => 'Member Offers',
+    'marquee_quality_picks' => 'Quality Picks',
+    'marquee_fresh_styles' => 'Fresh Styles',
+    'subscribe_subtitle' => 'Newsletter',
+    'subscribe_title' => 'Get Store Updates',
+    'subscribe_copy' => 'Subscribe for product news, new arrivals, and member offers.',
+    'subscribe_placeholder' => 'Enter your email address',
+    'subscribe_button' => 'Sign Up',
+    'subscribe_option' => 'Send me product news and exclusive offers',
+    'subscribe_note' => 'You can opt out at any time. See our',
+    'privacy_policy' => 'Privacy Policy',
+    'terms' => 'Terms',
+    'subscribe_invalid_email' => 'Please enter a valid email address.',
+    'subscribe_duplicate' => 'This email is already subscribed.',
+    'subscribe_success' => 'Subscribed successfully.',
+];

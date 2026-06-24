@@ -43,35 +43,35 @@ return array (
             ),
             'title' => 
             array (
-              'zh_cn' => 'AI Summit 2026',
-              'en' => 'AI Summit 2026',
+              'zh_cn' => 'Banli Future Store',
+              'en' => 'Banli Future Store',
             ),
             'sub_title' => 
             array (
-              'zh_cn' => 'The Future of Intelligence',
-              'en' => 'The Future of Intelligence',
+              'zh_cn' => 'Next Commerce Experience',
+              'en' => 'Next Commerce Experience',
             ),
             'date' => 
             array (
-              'zh_cn' => 'October 1–5, 2026',
-              'en' => 'October 1–5, 2026',
+              'zh_cn' => 'New Season 2026',
+              'en' => 'New Season 2026',
             ),
             'location' => 
             array (
-              'zh_cn' => 'San Francisco, CA',
-              'en' => 'San Francisco, CA',
+              'zh_cn' => 'Global Online Store',
+              'en' => 'Global Online Store',
             ),
             'btn1_text' => 
             array (
-              'zh_cn' => 'Get Tickets',
-              'en' => 'Get Tickets',
+              'zh_cn' => 'Shop Now',
+              'en' => 'Shop Now',
             ),
             'btn2_text' => 
             array (
-              'zh_cn' => 'View Schedule',
-              'en' => 'View Schedule',
+              'zh_cn' => 'View Collection',
+              'en' => 'View Collection',
             ),
-            'btn2_link' => '#section-schedule',
+            'btn2_link' => '#top-collections',
             'video' => 
             array (
               'src' => 
@@ -87,21 +87,21 @@ return array (
             ),
             'countdown_title' => 
             array (
-              'zh_cn' => 'Hurry Up!',
-              'en' => 'Hurry Up!',
+              'zh_cn' => 'Limited Drop',
+              'en' => 'Limited Drop',
             ),
             'countdown_sub_title' => 
             array (
-              'zh_cn' => 'Book Your Seat Now',
-              'en' => 'Book Your Seat Now',
+              'zh_cn' => 'New Arrivals Live',
+              'en' => 'New Arrivals Live',
             ),
             'countdown_date' => '2026-10-01 08:00:00',
             'countdown_address' => 
             array (
-              'zh_cn' => '121 AI Blvd,
-San Francisco BCA 94107',
-              'en' => '121 AI Blvd,
-San Francisco BCA 94107',
+              'zh_cn' => 'Banli Studio,
+Global Online',
+              'en' => 'Banli Studio,
+Global Online',
             ),
           ),
         ),
@@ -662,18 +662,18 @@ San Francisco BCA 94107',
         ),
         'title' => 
         array (
-          'zh_cn' => 'A Global Gathering of AI Innovators',
-          'en' => 'A Global Gathering of AI Innovators',
+          'zh_cn' => 'Curated Products for Modern Stores',
+          'en' => 'Curated Products for Modern Stores',
         ),
         'sub_title' => 
         array (
-          'zh_cn' => '[ About the Event ]',
-          'en' => '[ About the Event ]',
+          'zh_cn' => '[ About the Brand ]',
+          'en' => '[ About the Brand ]',
         ),
         'description' => 
         array (
-          'zh_cn' => 'Join thought leaders, developers, researchers, and founders as we explore how artificial intelligence is reshaping industries, creativity, and the future of work.',
-          'en' => 'Join thought leaders, developers, researchers, and founders as we explore how artificial intelligence is reshaping industries, creativity, and the future of work.',
+          'zh_cn' => 'Use this section to introduce your product selection, service promise, or independent brand story.',
+          'en' => 'Use this section to introduce your product selection, service promise, or independent brand story.',
         ),
         'link' => 
         array (

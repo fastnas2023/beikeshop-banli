@@ -4,11 +4,13 @@
 
 <header class="transparent">
   @hook('header.before')
-  <div class="top-wrap" style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 0; font-size: 13px;">
-    <div class="container d-flex justify-content-between align-items-center text-light">
+  <div class="top-wrap" style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0; font-size: 13px;">
+    <div class="container banli-topbar-container d-flex justify-content-between align-items-center text-light">
       <div class="left d-flex align-items-center">
-        @php($showCurrencySwitcher = currencies()->count() > 1)
-        @php($showLanguageSwitcher = count($languages) > 1)
+        @php
+          $showCurrencySwitcher = currencies()->count() > 1;
+          $showLanguageSwitcher = count($languages) > 1;
+        @endphp
 
         @if ($showCurrencySwitcher || $showLanguageSwitcher)
           <style>
@@ -31,8 +33,12 @@
               position: relative;
               z-index: 2005;
             }
+            header.transparent {
+              overflow: visible !important;
+            }
             .top-switcher {
               position: relative;
+              z-index: 2300;
               margin-bottom: 0 !important;
               border: 0 !important;
               background: transparent !important;
@@ -136,7 +142,7 @@
               width: 220px !important;
               max-width: calc(100vw - 32px);
               margin-top: 10px !important;
-              z-index: 2005 !important;
+              z-index: 2400 !important;
               backdrop-filter: blur(18px);
               -webkit-backdrop-filter: blur(18px);
               overflow: hidden;
@@ -255,12 +261,165 @@
                 width: min(220px, calc(100vw - 32px)) !important;
               }
             }
+            .banli-topbar-container {
+              min-height: 40px;
+              gap: 18px;
+            }
+            .top-wrap .left {
+              order: 2;
+              margin-left: auto;
+              min-width: 0;
+            }
+            .top-wrap .right {
+              order: 1;
+              display: flex;
+              align-items: center;
+              min-width: 0;
+            }
+            .top-wrap .right > div {
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+              color: rgba(255,255,255,0.86);
+              font-size: 13px;
+              font-weight: 650;
+              line-height: 1;
+              white-space: nowrap;
+            }
+            .top-wrap .right .bi-telephone {
+              color: rgba(0, 210, 255, 0.9);
+              font-size: 13px;
+            }
+            .top-switchers {
+              justify-content: flex-end;
+              flex-wrap: nowrap;
+              gap: 18px;
+            }
+            .top-switcher > .top-switcher-toggle {
+              justify-content: center;
+              gap: 6px;
+              min-width: 0 !important;
+              min-height: 30px;
+              padding: 0 !important;
+              border: 0 !important;
+              border-radius: 0 !important;
+              color: rgba(255,255,255,0.82) !important;
+              background: transparent !important;
+              box-shadow: none !important;
+              letter-spacing: 0;
+              font-weight: 650;
+              backdrop-filter: none;
+              -webkit-backdrop-filter: none;
+              transition: color 180ms ease;
+            }
+            .top-switcher > .top-switcher-toggle:hover,
+            .top-switcher > .top-switcher-toggle:focus {
+              color: #fff !important;
+              transform: none;
+              box-shadow: none !important;
+            }
+            .top-switcher > .top-switcher-toggle .top-switcher-text,
+            .top-switcher > .top-switcher-toggle .top-switcher-text span {
+              font-size: 13px !important;
+              font-weight: 650 !important;
+              letter-spacing: 0;
+            }
+            .top-switcher > .top-switcher-toggle .top-switcher-caret {
+              opacity: 0.74;
+            }
+            .top-switcher-menu {
+              top: calc(100% + 8px) !important;
+              left: auto !important;
+              right: 0 !important;
+              border-radius: 10px !important;
+              border-color: rgba(255,255,255,0.12) !important;
+              box-shadow: 0 16px 36px rgba(0,0,0,0.42);
+              padding: 5px !important;
+              width: 176px !important;
+              margin-top: 6px !important;
+              background: rgba(9, 11, 24, 0.96) !important;
+              background-color: rgba(9, 11, 24, 0.96) !important;
+            }
+            .top-switcher-item {
+              min-height: 42px;
+              padding: 8px 10px;
+              border-radius: 8px;
+              gap: 10px;
+              font-size: 13px;
+              color: rgba(255,255,255,0.78);
+              transform: none !important;
+            }
+            .top-switcher-item:hover,
+            .top-switcher-item:focus {
+              background: rgba(255,255,255,0.06);
+              color: #fff;
+              transform: none !important;
+            }
+            .top-switcher-item.active {
+              background: rgba(0, 210, 255, 0.10);
+              border-color: rgba(0, 210, 255, 0.28);
+              color: #fff;
+            }
+            .top-switcher-item .top-switcher-item-main {
+              gap: 10px;
+            }
+            .top-switcher-item .top-switcher-item-badge {
+              min-width: 44px;
+              padding: 0 !important;
+              background: transparent !important;
+              border: 0 !important;
+              border-radius: 0 !important;
+              color: rgba(255,255,255,0.88);
+              font-size: 12px;
+              font-weight: 750;
+              letter-spacing: 0.8px;
+              justify-content: flex-start;
+            }
+            .top-switcher-item.active .top-switcher-item-badge {
+              color: #fff;
+            }
+            .top-switcher-check svg {
+              width: 13px;
+              height: 13px;
+            }
+            @media (max-width: 991px) {
+              .banli-topbar-container {
+                min-height: 36px;
+                gap: 10px;
+              }
+              .top-switchers {
+                gap: 12px;
+              }
+              .top-switcher > .top-switcher-toggle {
+                min-width: 0 !important;
+                min-height: 30px;
+                padding: 0 !important;
+              }
+              .top-switcher > .top-switcher-toggle .top-switcher-text,
+              .top-switcher > .top-switcher-toggle .top-switcher-text span,
+              .top-wrap .right > div {
+                font-size: 12px !important;
+              }
+            }
+            @media (max-width: 576px) {
+              .top-wrap .right > div {
+                max-width: 42vw;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+              .top-switchers {
+                gap: 10px;
+              }
+              .top-switcher-menu {
+                width: min(176px, calc(100vw - 32px)) !important;
+              }
+            }
           </style>
           <div class="top-switchers">
             @hookwrapper('header.top.currency')
             @if ($showCurrencySwitcher)
               <div class="dropdown top-switcher">
-                <a class="top-switcher-toggle" href="javascript:void(0)" id="currency-dropdown" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                <a class="top-switcher-toggle" href="javascript:void(0)" id="currency-dropdown" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true" aria-expanded="false">
                   <span class="top-switcher-text">
                     @foreach (currencies() as $currency)
                       @if ($currency->code == current_currency_code())
@@ -298,7 +457,7 @@
             @hookwrapper('header.top.language')
             @if ($showLanguageSwitcher)
               <div class="dropdown top-switcher">
-                <a class="top-switcher-toggle" href="javascript:void(0)" id="language-dropdown" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                <a class="top-switcher-toggle" href="javascript:void(0)" id="language-dropdown" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true" aria-expanded="false">
                   <span class="top-switcher-text">
                     <span>{{ current_language()->name }}</span>
                   </span>
@@ -428,6 +587,137 @@
       .banli-desktop-nav {
         display: none !important;
       }
+
+      #offcanvas-mobile-menu {
+        width: min(86vw, 360px);
+        background:
+          linear-gradient(180deg, rgba(16, 20, 53, 0.98), rgba(11, 15, 41, 0.98)) !important;
+        color: #fff !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 24px 0 60px rgba(0, 0, 0, 0.45);
+      }
+
+      #offcanvas-mobile-menu .offcanvas-header {
+        padding: 16px 18px;
+        background: rgba(255, 255, 255, 0.02);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      }
+
+      #offcanvas-mobile-menu .offcanvas-title {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      #offcanvas-mobile-menu .btn-close {
+        filter: invert(1) grayscale(100%) brightness(220%);
+        opacity: .82;
+        box-shadow: none !important;
+      }
+
+      #offcanvas-mobile-menu .btn-close:hover,
+      #offcanvas-mobile-menu .btn-close:focus {
+        opacity: 1;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap {
+        padding: 0;
+        background: transparent;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion {
+        border-top: 0;
+        background: transparent;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .accordion-item {
+        background: transparent !important;
+        border: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .nav-item-text {
+        background: transparent;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .nav-item-text > a {
+        min-height: 56px;
+        padding: 0 18px;
+        display: flex;
+        align-items: center;
+        color: rgba(255, 255, 255, 0.92) !important;
+        font-size: 16px;
+        font-weight: 650;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .nav-item-text > a:hover,
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .nav-item-text > a:focus {
+        color: #fff !important;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .nav-item-text > span {
+        width: 52px;
+        height: 56px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.72);
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        background: transparent !important;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .nav-item-text > span:active,
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .nav-item-text > span[aria-expanded="true"] {
+        background: rgba(255, 255, 255, 0.05) !important;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .accordion-item > .accordion-collapse {
+        padding: 0 18px 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .children-group + .children-group {
+        border-top: 1px dashed rgba(255, 255, 255, 0.08);
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .children-title {
+        min-height: 48px;
+        color: rgba(255, 255, 255, 0.88);
+        font-weight: 600;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .children-title > span {
+        width: 44px;
+        height: 44px;
+        margin-right: -10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.68);
+        background: transparent !important;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .children-title > span:active,
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .children-title > span[aria-expanded="true"] {
+        background: rgba(255, 255, 255, 0.05) !important;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .ul-children .nav-link {
+        padding: 10px 0;
+        color: rgba(255, 255, 255, 0.72) !important;
+        font-size: 14px;
+      }
+
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .ul-children .nav-link:hover,
+      #offcanvas-mobile-menu .mobile-menu-wrap #menu-accordion .ul-children .nav-link:focus {
+        color: #fff !important;
+      }
+
+      #offcanvas-mobile-menu .badge {
+        box-shadow: none;
+      }
     }
     @media (max-width: 420px) {
       .banli-mobile-nav-group {
@@ -523,7 +813,13 @@
                                       @if ($menu['name'])
                                           <li>
                                               <a class="menu-item" target="{{ isset($menu['new_window']) && $menu['new_window'] ? '_blank' : '_self' }}" href="{{ $menu['link'] ?: 'javascript:void(0)' }}">
-                                                  {{ $menu['name'] }}
+                                                  <span class="banli-menu-label">{{ $menu['name'] }}</span>
+                                                  @if (isset($menu['badge']) && $menu['badge']['name'])
+                                                      <span class="badge banli-menu-badge"
+                                                            style="background-color: {{ $menu['badge']['bg_color'] }}; color: {{ $menu['badge']['text_color'] }}; border-color: {{ $menu['badge']['bg_color'] }}">
+                                                          {{ $menu['badge']['name'] }}
+                                                      </span>
+                                                  @endif
                                               </a>
 
                                               @if (isset($menu['children_group']) && count($menu['children_group']) > 0)
@@ -547,11 +843,9 @@
                                       @endif
                                   @endforeach
                               @else
-                                  <li><a class="menu-item active" href="#section-hero">Home</a></li>
-                                  <li><a class="menu-item" href="#section-about">About</a></li>
-                                  <li><a class="menu-item" href="#section-speakers">Speakers</a></li>
-                                  <li><a class="menu-item" href="#section-schedule">Schedule</a></li>
-                                  <li><a class="menu-item" href="#section-tickets">Tickets</a></li>
+                                  <li><a class="menu-item active" href="{{ shop_route('home.index') }}">{{ __('common.home') }}</a></li>
+                                  <li><a class="menu-item" href="{{ shop_route('categories.index') }}">{{ __('BanliTheme::common.categories') }}</a></li>
+                                  <li><a class="menu-item" href="{{ shop_route('products.search') }}">{{ __('shop/products.search') }}</a></li>
                               @endif
                           </ul>
                       </div>
@@ -606,6 +900,98 @@
                         }
                         header.smaller #logo .banli-header-brand-name {
                           font-size: 27px;
+                        }
+                        header #mainmenu > li > a.menu-item {
+                          display: inline-flex !important;
+                          align-items: center;
+                          gap: 6px;
+                          position: relative;
+                          white-space: nowrap;
+                          overflow: visible;
+                        }
+                        header #mainmenu > li.has-child::after,
+                        header #mainmenu > li.menu-item-has-children::after,
+                        header #mainmenu > li > a.menu-item::after {
+                          display: none !important;
+                          content: none !important;
+                        }
+                        header #mainmenu > li.menu-item-has-children > a.menu-item::after,
+                        header #mainmenu > li.has-child > a.menu-item::after {
+                          content: "" !important;
+                          display: inline-block !important;
+                          width: 7px;
+                          height: 7px;
+                          margin-left: 6px;
+                          border-right: 2px solid currentColor;
+                          border-bottom: 2px solid currentColor;
+                          opacity: .72;
+                          transform: rotate(45deg) translateY(-2px);
+                          flex: 0 0 auto;
+                        }
+                        header #mainmenu .banli-menu-label {
+                          display: inline-flex !important;
+                          align-items: center;
+                          position: static !important;
+                          width: auto !important;
+                          min-width: 0;
+                          color: inherit !important;
+                          border-bottom: 0 !important;
+                          font-size: inherit !important;
+                          line-height: 1.2 !important;
+                          text-transform: none !important;
+                          white-space: nowrap;
+                        }
+                        header #mainmenu li:hover a .banli-menu-label,
+                        header #mainmenu a.active .banli-menu-label {
+                          width: auto !important;
+                        }
+                        header #mainmenu .banli-menu-badge {
+                          display: inline-flex;
+                          align-items: center;
+                          justify-content: center;
+                          position: absolute !important;
+                          top: 2px;
+                          left: 50%;
+                          right: auto;
+                          min-width: 0;
+                          min-height: 16px;
+                          padding: 4px 8px;
+                          border: 1px solid rgba(255, 255, 255, .18) !important;
+                          border-radius: 999px;
+                          font-size: 10px;
+                          font-weight: 800;
+                          line-height: 1;
+                          letter-spacing: 0;
+                          box-shadow: 0 8px 18px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .26);
+                          text-shadow: 0 1px 0 rgba(0, 0, 0, .16);
+                          transform: translateX(-50%);
+                          pointer-events: none;
+                          white-space: nowrap;
+                        }
+                        header #mainmenu .banli-menu-badge::after {
+                          content: "";
+                          position: absolute;
+                          left: 8px;
+                          bottom: -3px;
+                          width: 6px;
+                          height: 6px;
+                          background: inherit;
+                          border-right: 1px solid rgba(255, 255, 255, .14);
+                          border-bottom: 1px solid rgba(255, 255, 255, .14);
+                          transform: rotate(45deg);
+                        }
+                        @media (min-width: 992px) and (max-width: 1399.98px) {
+                          header #mainmenu > li {
+                            margin-right: 22px;
+                          }
+                          header #mainmenu > li > a.menu-item {
+                            font-size: 14px;
+                            gap: 4px;
+                          }
+                          header #mainmenu .banli-menu-badge {
+                            padding: 3px 6px;
+                            font-size: 9px;
+                          }
                         }
                         .top-icon-btn {
                           color: #fff;
@@ -730,6 +1116,130 @@
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-right-cart" aria-labelledby="offcanvasRightLabel" style="background: var(--bg-dark-1); color: #fff;"></div>
 
   <x-shop-search-popover />
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const topSwitchers = Array.from(document.querySelectorAll('.top-switcher'));
+
+      const supportsDesktopHover = function () {
+        return window.matchMedia('(min-width: 992px) and (hover: hover) and (pointer: fine)').matches;
+      };
+
+      const getDropdown = function (toggle) {
+        if (!window.bootstrap || !bootstrap.Dropdown || !toggle) return null;
+        return bootstrap.Dropdown.getOrCreateInstance(toggle, {
+          autoClose: 'outside',
+          display: 'static'
+        });
+      };
+
+      const hideSwitcher = function (switcher) {
+        const toggle = switcher.querySelector('.top-switcher-toggle');
+        const dropdown = getDropdown(toggle);
+        if (dropdown) {
+          dropdown.hide();
+          return;
+        }
+
+        toggle?.setAttribute('aria-expanded', 'false');
+        switcher.classList.remove('show');
+        const menu = switcher.querySelector('.top-switcher-menu');
+        if (menu) {
+          menu.classList.remove('show');
+          menu.removeAttribute('data-bs-popper');
+        }
+      };
+
+      const hideOtherSwitchers = function (currentSwitcher) {
+        topSwitchers.forEach(function (switcher) {
+          if (switcher !== currentSwitcher) hideSwitcher(switcher);
+        });
+      };
+
+      topSwitchers.forEach(function (switcher) {
+        const toggle = switcher.querySelector('.top-switcher-toggle');
+        const menu = switcher.querySelector('.top-switcher-menu');
+        if (!toggle || !menu) return;
+
+        let closeTimer = null;
+
+        const clearCloseTimer = function () {
+          if (closeTimer) {
+            window.clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+        };
+
+        const showSwitcher = function () {
+          if (!supportsDesktopHover()) return;
+          clearCloseTimer();
+          hideOtherSwitchers(switcher);
+          const dropdown = getDropdown(toggle);
+          if (dropdown) dropdown.show();
+        };
+
+        const queueHide = function () {
+          if (!supportsDesktopHover()) return;
+          clearCloseTimer();
+          closeTimer = window.setTimeout(function () {
+            hideSwitcher(switcher);
+          }, 180);
+        };
+
+        switcher.addEventListener('mouseenter', showSwitcher);
+        switcher.addEventListener('pointerenter', showSwitcher);
+        switcher.addEventListener('mouseover', function (event) {
+          if (!switcher.contains(event.relatedTarget)) showSwitcher();
+        });
+
+        switcher.addEventListener('mouseleave', queueHide);
+        switcher.addEventListener('pointerleave', queueHide);
+        switcher.addEventListener('mouseout', function (event) {
+          if (!switcher.contains(event.relatedTarget)) queueHide();
+        });
+
+        menu.addEventListener('mouseenter', clearCloseTimer);
+        menu.addEventListener('pointerenter', clearCloseTimer);
+        menu.addEventListener('mouseleave', queueHide);
+        menu.addEventListener('pointerleave', queueHide);
+
+        toggle.addEventListener('click', function () {
+          hideOtherSwitchers(switcher);
+        });
+
+        toggle.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') {
+            hideSwitcher(switcher);
+            toggle.focus();
+          }
+
+          if (event.key === 'ArrowDown') {
+            const dropdown = getDropdown(toggle);
+            if (dropdown) dropdown.show();
+            const firstItem = menu.querySelector('.top-switcher-item');
+            if (firstItem) {
+              event.preventDefault();
+              firstItem.focus();
+            }
+          }
+        });
+
+        menu.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') {
+            hideSwitcher(switcher);
+            toggle.focus();
+          }
+        });
+      });
+
+      const offcanvasMobileMenu = document.getElementById('offcanvas-mobile-menu');
+      if (offcanvasMobileMenu) {
+        offcanvasMobileMenu.addEventListener('show.bs.offcanvas', function () {
+          topSwitchers.forEach(hideSwitcher);
+        });
+      }
+    });
+  </script>
 
   @hook('header.after')
 </header>

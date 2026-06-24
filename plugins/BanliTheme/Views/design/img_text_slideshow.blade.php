@@ -1,5 +1,5 @@
 <div class="module-item {{ $design ? 'module-item-design' : ''}}" id="module-{{ $module_id }}">
-        <section id="section-tickets" class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section" style="{{ !empty($content['bg_color']) ? 'background-color: '.$content['bg_color'].'!important;' : '' }}">
+        <section id="section-offers" class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section" style="{{ !empty($content['bg_color']) ? 'background-color: '.$content['bg_color'].'!important;' : '' }}">
             <img src="https://madebydesignesia.com/themes/cyber/images/background/7.webp" class="jarallax-img" alt="">
             <div class="gradient-edge-top"></div>
             <div class="gradient-edge-bottom"></div>
@@ -14,12 +14,11 @@
                       @endphp
                       <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">{{ $scrollText }}</div>
                       @else
-                      <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">Ticket Options</div>
+                      <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">Offer Options</div>
                       @endif
                       
-                      <!-- We can use the module's images array to render tickets -->
-                      <h2 class="wow fadeInUp" data-wow-delay=".2s">Choose Your Pass</h2>
-                      <p class="lead wow fadeInUp" data-wow-delay=".4s">Select the perfect ticket for your needs and gain access to exclusive sessions, workshops, and more.</p>
+                      <h2 class="wow fadeInUp" data-wow-delay=".2s">Choose Your Package</h2>
+                      <p class="lead wow fadeInUp" data-wow-delay=".4s">Present featured bundles, service plans, or collection tiers for different customer needs.</p>
                   </div>
                 </div>
 
@@ -31,7 +30,7 @@
                                 @php
                                     $imgSrc = is_array($image['image']) ? ($image['image']['src'][locale()] ?? $image['image']['src'] ?? '') : ($image['image'] ?? '');
                                     $linkUrl = is_array($image['link'] ?? null) ? ($image['link']['link'] ?? $image['link']['value'] ?? 'javascript:void(0)') : ($image['link'] ?? 'javascript:void(0)');
-                                    $title = is_array($image['title'] ?? '') ? ($image['title'][locale()] ?? '') : ($image['title'] ?? 'Ticket');
+                                    $title = is_array($image['title'] ?? '') ? ($image['title'][locale()] ?? '') : ($image['title'] ?? 'Package');
                                     $subTitle = is_array($image['sub_title'] ?? '') ? ($image['sub_title'][locale()] ?? '') : ($image['sub_title'] ?? '$0');
                                     $description = is_array($image['description'] ?? '') ? ($image['description'][locale()] ?? '') : ($image['description'] ?? '');
                                 @endphp
@@ -42,7 +41,7 @@
                                         <img src="https://madebydesignesia.com/themes/cyber/images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
                                         <h2>{{ $title }}</h2>
                                         <h4 class="mb-4">{{ $subTitle }}</h4>
-                                        <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                        <div class="fs-14">Available Online</div>
                                     </div>
                                     <div class="relative">
                                         <div class="py-4 z-2">
@@ -56,13 +55,13 @@
                                             </ul>
                                             @else
                                             <ul class="ul-check mb-4">
-                                                <li>Access to all areas</li>
+                                                <li>Suitable for featured store campaigns</li>
                                             </ul>
                                             @endif
                                         </div>
                                     </div>
     
-                                    <a class="btn-main fx-slide w-100" href="{{ $linkUrl }}"><span>Buy Ticket</span></a>
+                                    <a class="btn-main fx-slide w-100" href="{{ $linkUrl }}"><span>View Details</span></a>
                                 </div>
                                 @endforeach
                             @else
@@ -73,26 +72,26 @@
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
                                     <h2>Standard</h2>
                                     <h4 class="mb-4">$299</h4>
-                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                    <div class="fs-14">Available Online</div>
                                 </div>
 
                                 <div class="relative overflow-hidden">
                                     <div class="py-4 z-2">
                                         <ul class="ul-check mb-4">
-                                            <li>Access to keynotes and sessions.</li>
-                                            <li>Admission to exhibitions and demos.</li>
-                                            <li>Networking opportunities.</li>
-                                            <li>Digital materials and session recordings.</li>
+                                            <li>Entry-level bundle for new customers.</li>
+                                            <li>Clear product highlights and benefits.</li>
+                                            <li>Flexible content for store campaigns.</li>
+                                            <li>Works for products, services, or memberships.</li>
                                         </ul>
                                     </div>
 
-                                    <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                                    <a class="btn-main fx-slide w-100" href="#latest-products"><span>View Details</span></a>
                                     
                                 </div>
                             </div>
-                            <!-- ticket item end -->
+                            <!-- package item end -->
 
-                            <!-- ticket item begin -->
+                            <!-- package item begin -->
                             <div class="item">
                                 <div class="d-ticket">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo.webp" class="w-80px mb-4" alt="">
@@ -100,122 +99,122 @@
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
                                     <h2>VIP</h2>
                                     <h4 class="mb-4">$699</h4>
-                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                    <div class="fs-14">Available Online</div>
                                 </div>
                                 <div class="relative">
                                     <div class="py-4 z-2">
                                         <ul class="ul-check mb-4">
-                                            <li>All Standard benefits.</li>
-                                            <li>VIP lounge access and exclusive events.</li>
-                                            <li>Front-row seating and priority workshop access.</li>
-                                            <li>VIP swag bag and exclusive content.</li>
+                                            <li>Includes all Standard bundle benefits.</li>
+                                            <li>Useful for premium product sets.</li>
+                                            <li>Priority support or fulfillment messaging.</li>
+                                            <li>Space for extra services and incentives.</li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                                <a class="btn-main fx-slide w-100" href="#latest-products"><span>View Details</span></a>
                             </div>
-                            <!-- ticket item end -->
+                            <!-- package item end -->
 
-                            <!-- ticket item begin -->
+                            <!-- package item begin -->
                             <div class="item">
                                 <div class="d-ticket s2">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo.webp" class="w-80px mb-4" alt="">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
-                                    <h2>Full Access</h2>
+                                    <h2>Complete</h2>
                                     <h4 class="mb-4">$1199</h4>
-                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                    <div class="fs-14">Available Online</div>
                                 </div>
                                 <div class="relative">
                                     <div class="py-4 z-2">
                                         <ul class="ul-check mb-4">
-                                            <li>All VIP benefits.</li>
-                                            <li>Access to all workshops and breakout sessions.</li>
-                                            <li>Personalized session scheduling.</li>
-                                            <li>Speaker meet-and-greet and after-party access.</li>
+                                            <li>Includes all Premium bundle benefits.</li>
+                                            <li>Good for full collection campaigns.</li>
+                                            <li>Supports personalized service messaging.</li>
+                                            <li>Room for exclusive member benefits.</li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                                <a class="btn-main fx-slide w-100" href="#latest-products"><span>View Details</span></a>
                             </div>
-                            <!-- ticket item end -->
+                            <!-- package item end -->
 
-                            <!-- ticket item begin -->
+                            <!-- package item begin -->
                             <div class="item">
                                 <div class="d-ticket s2">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo.webp" class="w-80px mb-4" alt="">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
-                                    <h2>Exclusive Access</h2>
+                                    <h2>Exclusive</h2>
                                     <h4 class="mb-4">$2499</h4>
-                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                    <div class="fs-14">Available Online</div>
                                 </div>
                                 <div class="relative">
                                     <div class="py-4 z-2">
                                         <ul class="ul-check mb-4">
-                                            <li>All Full Access Pass benefits.</li>
-                                            <li>Private one-on-one sessions with speakers.</li>
-                                            <li>Priority access to all events and workshops.</li>
-                                            <li>Exclusive VIP gala and after-party invitations.</li>
+                                            <li>Includes all Complete bundle benefits.</li>
+                                            <li>Ideal for limited or high-value offers.</li>
+                                            <li>Priority consultation or service options.</li>
+                                            <li>Exclusive content for loyal customers.</li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                                <a class="btn-main fx-slide w-100" href="#latest-products"><span>View Details</span></a>
                             </div>
-                            <!-- ticket item end -->
+                            <!-- package item end -->
 
-                            <!-- ticket item begin -->
+                            <!-- package item begin -->
                             <div class="item">
                                 <div class="d-ticket s3">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo.webp" class="w-80px mb-4" alt="">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
-                                    <h2>Student</h2>
+                                    <h2>Starter</h2>
                                     <h4 class="mb-4">$149</h4>
-                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                    <div class="fs-14">Available Online</div>
                                 </div>
                                 <div class="relative">
                                     <div class="py-4 z-2">
                                         <ul class="ul-check mb-4">
-                                            <li>Access to keynotes and workshops.</li>
-                                            <li>Student-specific networking events.</li>
-                                            <li>Discounted online resources post-event.</li>
-                                            <li>Special student meetups for networking.</li>
+                                            <li>Simple offer for first-time buyers.</li>
+                                            <li>Compact benefits for easy comparison.</li>
+                                            <li>Works for trial packs or sample sets.</li>
+                                            <li>Clear next step to product details.</li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                                <a class="btn-main fx-slide w-100" href="#latest-products"><span>View Details</span></a>
                             </div>
-                            <!-- ticket item end -->
+                            <!-- package item end -->
 
-                            <!-- ticket item begin -->
+                            <!-- package item begin -->
                             <div class="item">
                                 <div class="d-ticket s3">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo.webp" class="w-80px mb-4" alt="">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
                                     <img src="https://madebydesignesia.com/themes/cyber/images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
-                                    <h2>Virtual</h2>
+                                    <h2>Digital</h2>
                                     <h4 class="mb-4">$99</h4>
-                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                    <div class="fs-14">Available Online</div>
                                 </div>
                                 <div class="relative">
                                     <div class="py-4 z-2">
                                         <ul class="ul-check mb-4">
-                                            <li>Live-streamed keynotes and workshops.</li>
-                                            <li>On-demand access to recorded sessions.</li>
-                                            <li>Interactive Q&A with speakers.</li>
-                                            <li>Virtual networking and digital swag.</li>
+                                            <li>Online-friendly offer presentation.</li>
+                                            <li>Great for digital products or services.</li>
+                                            <li>Supports downloadable resources.</li>
+                                            <li>Easy to adapt for member benefits.</li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                                <a class="btn-main fx-slide w-100" href="#latest-products"><span>View Details</span></a>
                             </div>
-                            <!-- ticket item end -->
+                            <!-- package item end -->
                             @endif
                         </div>
                     </div>

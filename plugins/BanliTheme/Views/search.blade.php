@@ -9,7 +9,7 @@
     }
 
     body.page-search #wrapper {
-      padding-top: 132px !important;
+      padding-top: var(--banli-header-height, 132px) !important;
     }
 
     body.page-search .breadcrumb-wrap {
@@ -107,21 +107,47 @@
       align-items: baseline;
       gap: 12px;
       flex-wrap: wrap;
+      min-height: 56px;
     }
 
     body.page-search .banli-search-products .price-new {
+      display: block;
+      max-width: 100%;
       font-size: 20px;
       line-height: 1;
+      overflow-wrap: anywhere;
     }
 
     body.page-search .banli-search-products .price-old {
       margin-left: 0 !important;
       font-size: 14px;
+      line-height: 1.2;
+    }
+
+    body.page-search .banli-search-products .price-old-placeholder {
+      visibility: hidden;
     }
 
     @media (max-width: 991.98px) {
       body.page-search #wrapper {
-        padding-top: 176px !important;
+        padding-top: var(--banli-header-height, 176px) !important;
+      }
+      body.page-search .banli-search-products .product-price {
+        min-height: 62px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+      body.page-search .banli-search-products .price-new {
+        font-size: clamp(22px, 7.2vw, 30px);
+        line-height: 1.05;
+      }
+      body.page-search .banli-search-products .price-old {
+        display: block;
+        min-height: 18px;
+        font-size: 14px;
+        line-height: 1.25;
       }
     }
   </style>
@@ -137,7 +163,7 @@
         @foreach ($items as $product)
           <div class="col-6 col-sm-4 col-lg-3">
             <div class="glass-card h-100">
-              @include('shared.product')
+              @include('shared.product', ['mode' => 'grid', 'show_actions' => true])
             </div>
           </div>
         @endforeach

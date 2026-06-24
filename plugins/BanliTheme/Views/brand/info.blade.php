@@ -5,6 +5,28 @@
   $brandProductsText = locale() == 'zh_cn'
     ? $products->total() . ' 件商品'
     : $products->total() . ' items';
+  $brandLogo = trim((string) ($brand->logo ?? ''));
+  $demoBrandLogos = [
+    'gucci' => 'banli_theme-assets/brand-logos/gucci.png',
+    'valentino' => 'banli_theme-assets/brand-logos/valentino.png',
+    'balenciaga' => 'banli_theme-assets/brand-logos/balenciaga.png',
+    'saint-laurent' => 'banli_theme-assets/brand-logos/saint-laurent.png',
+    'louis-vuitton' => 'banli_theme-assets/brand-logos/louis-vuitton.png',
+    'prada' => 'banli_theme-assets/brand-logos/prada.png',
+    'chanel' => 'banli_theme-assets/brand-logos/chanel.png',
+    'dior' => 'banli_theme-assets/brand-logos/dior.png',
+    'armani' => 'banli_theme-assets/brand-logos/armani.png',
+    'burberry' => 'banli_theme-assets/brand-logos/burberry.png',
+    'versace' => 'banli_theme-assets/brand-logos/versace.png',
+    'hermes' => 'banli_theme-assets/brand-logos/hermes.png',
+  ];
+  $brandKey = str_replace([' ', 'è', 'é'], ['-', 'e', 'e'], strtolower($brand->name));
+
+  if ($brandLogo && (str_contains($brandLogo, 'banli_theme-assets/sponsors/') || str_contains($brandLogo, 'image/catalog/demo/brands/')) && isset($demoBrandLogos[$brandKey])) {
+    $brandLogo = image_origin($demoBrandLogos[$brandKey]) . '?v=20260609';
+  } elseif ($brandLogo) {
+    $brandLogo = image_origin($brandLogo);
+  }
 @endphp
 
 @push('header')
@@ -24,25 +46,44 @@
     }
     .banli-brand-hero {
       position: relative;
+      isolation: isolate;
       overflow: hidden;
       margin-bottom: clamp(1rem, 1.7vw, 1.375rem);
-      padding: clamp(30px, 3.4vw, 52px);
-      border: 1px solid rgba(255,255,255,.10);
+      padding: clamp(26px, 3vw, 44px);
+      border: 1px solid rgba(255,255,255,.14);
       border-radius: 8px;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
-        url('{{ asset('banli_theme-assets/aivent/images/background/5.webp') }}') center / cover;
-      box-shadow: 0 26px 70px rgba(0,0,0,.22);
+      background: rgba(255,255,255,.025);
+      box-shadow:
+        0 24px 64px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.08);
     }
     .banli-brand-hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, rgba(16,20,53,.93), rgba(16,20,53,.72) 54%, rgba(16,20,53,.88));
+      z-index: -2;
+      border-radius: inherit;
+      background: url('{{ asset('banli_theme-assets/aivent/images/background/5.webp') }}') center 42% / cover no-repeat;
+      transform: scale(1.006);
+    }
+    .banli-brand-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      border-radius: inherit;
+      background:
+        radial-gradient(circle at 86% 52%, rgba(122, 76, 243, .16), transparent 30%),
+        linear-gradient(180deg, rgba(16,20,53,.18), rgba(16,20,53,.06) 34%, rgba(16,20,53,.22)),
+        linear-gradient(90deg, rgba(16,20,53,.88), rgba(16,20,53,.58) 54%, rgba(16,20,53,.78));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(255,255,255,.08);
     }
     .banli-brand-hero > .row {
       position: relative;
       z-index: 1;
+      min-height: clamp(220px, 21vw, 286px);
+      align-items: center;
     }
     .banli-brand-kicker {
       display: inline-flex;
@@ -76,9 +117,11 @@
       justify-content: center;
       overflow: hidden;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.72);
-      box-shadow: 0 20px 45px rgba(0,0,0,.26);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(13,17,48,.58);
+      box-shadow: 0 20px 45px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     .banli-brand-logo img {
       max-width: 82%;
@@ -169,14 +212,22 @@
       align-items: baseline;
       gap: 12px;
       flex-wrap: wrap;
+      min-height: 56px;
     }
     .banli-brand-products .price-new {
+      display: block;
+      max-width: 100%;
       font-size: 20px;
       line-height: 1;
+      overflow-wrap: anywhere;
     }
     .banli-brand-products .price-old {
       margin-left: 0 !important;
       font-size: 14px;
+      line-height: 1.2;
+    }
+    .banli-brand-products .price-old-placeholder {
+      visibility: hidden;
     }
     @media (max-width: 991.98px) {
       body.page-brand-detail #wrapper {
@@ -196,6 +247,23 @@
         width: min(clamp(8.5rem, 46vw, 11.25rem), 100%);
         margin: 4px auto 0;
       }
+      .banli-brand-products .product-price {
+        min-height: 62px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+      .banli-brand-products .price-new {
+        font-size: clamp(22px, 7.2vw, 30px);
+        line-height: 1.05;
+      }
+      .banli-brand-products .price-old {
+        display: block;
+        min-height: 18px;
+        font-size: 14px;
+        line-height: 1.25;
+      }
     }
   </style>
 @endpush
@@ -205,15 +273,15 @@
     <div class="container">
       <div class="banli-brand-hero">
         <div class="row g-4 align-items-center">
-          <div class="{{ $brand->logo ? 'col-12 col-lg-9' : 'col-12' }}">
+          <div class="{{ $brandLogo ? 'col-12 col-lg-9' : 'col-12' }}">
             <div class="banli-brand-kicker">{{ __('shop/brands.index') }}</div>
             <h1>{{ $brand->name }}</h1>
             <p>{{ __('product.brand') }} {{ $brand->name }} · {{ $brandProductsText }}</p>
           </div>
-          @if($brand->logo)
+          @if($brandLogo)
             <div class="col-12 col-lg-3">
               <div class="banli-brand-logo">
-                <img src="{{ image_origin($brand->logo) }}" alt="{{ $brand->name }}">
+                <img src="{{ $brandLogo }}" alt="{{ $brand->name }}">
               </div>
             </div>
           @endif

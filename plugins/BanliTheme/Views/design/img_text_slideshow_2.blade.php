@@ -1,12 +1,32 @@
+@php
+    $contactItems = collect([
+        [
+            'icon' => 'icofont-google-map',
+            'title' => __('admin/builder.text_address'),
+            'value' => system_setting('base.address', ''),
+        ],
+        [
+            'icon' => 'icofont-phone',
+            'title' => __('common.phone'),
+            'value' => system_setting('base.telephone', ''),
+        ],
+        [
+            'icon' => 'icofont-envelope',
+            'title' => __('common.email'),
+            'value' => system_setting('base.email', ''),
+        ],
+    ])->filter(fn ($item) => trim((string) $item['value']) !== '')->values();
+@endphp
+
 <div class="module-item {{ $design ? 'module-item-design' : ''}}" id="module-{{ $module_id }}">
         <section id="section-venue" class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section" style="{{ !empty($content['bg_color']) ? 'background-color: '.$content['bg_color'].'!important;' : '' }}">
           <div class="container relative z-2">
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-6 text-center">
-                    <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Event Location</div>
+                    <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Store Information</div>
                     
-                    <h2 class="wow fadeInUp" data-wow-delay=".2s">Location & Venue</h2>
-                    <p class="lead wow fadeInUp" data-wow-delay=".6s">Join us in the heart of innovation at San Francisco Tech Pavilion—surrounded by top hotels, transit, and culture.</p>
+                    <h2 class="wow fadeInUp" data-wow-delay=".2s">Visit & Contact</h2>
+                    <p class="lead wow fadeInUp" data-wow-delay=".6s">Use this section for showroom details, service contacts, or brand location information.</p>
                 </div>
             </div>
 
@@ -32,35 +52,24 @@
 
                 <div class="clearfix"></div>
 
+                @forelse($contactItems as $item)
                 <div class="col-lg-4 col-md-6 mb-sm-30">
                     <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".2s">
-                        <i class="fs-60 id-color icofont-google-map"></i>
+                        <i class="fs-60 id-color {{ $item['icon'] }}"></i>
                         <div class="ms-3">
-                            <h4 class="mb-0">Address</h4>
-                            <p>121 AI Blvd, San Francisco, CA 94107</p>
+                            <h4 class="mb-0">{{ $item['title'] }}</h4>
+                            <p>{!! nl2br(e($item['value'])) !!}</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6 mb-sm-30">
-                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".4s">
-                        <i class="fs-60 id-color icofont-phone"></i>
-                        <div class="ms-3">
-                            <h4 class="mb-0">Phone</h4>
-                            <p>Call: +1 123 456 789</p>
-                        </div>
+                @empty
+                <div class="col-lg-8 text-center">
+                    <div class="bg-dark-2 rounded-1 p-4 wow fadeInUp">
+                        <h4 class="mb-2">Store Contact</h4>
+                        <p class="mb-0 text-white-50">Configure address, phone, or email in store settings.</p>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6 mb-sm-30">
-                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".6s">
-                        <i class="fs-60 id-color icofont-envelope"></i>
-                        <div class="ms-3">
-                            <h4 class="mb-0">Email</h4>
-                            <p>contact@cyber.com</p>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
 
           </div>

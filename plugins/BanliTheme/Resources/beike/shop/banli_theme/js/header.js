@@ -12,19 +12,6 @@ $(function () {
   if (myOffcanvas) {
     myOffcanvas.addEventListener("shown.bs.offcanvas", function () {
       $("#offcanvas-search-top input").focus();
-
-      $("#offcanvas-search-top input").keydown(function (e) {
-        if (e.keyCode == 13) {
-          if ($(this).val() != "") {
-            var lang = $(this).data("lang");
-            if (lang) {
-              location.href = "/" + lang + "/products/search?keyword=" + $(this).val();
-            } else {
-              location.href = "products/search?keyword=" + $(this).val();
-            }
-          }
-        }
-      });
     });
   }
 
@@ -62,12 +49,6 @@ $(function () {
       $('.offcanvas-right-cart-amount').text(res.data.amount_format);
     })
   })
-
-  // 响应式下弹窗菜单交互
-  $(document).on("click", ".mobile-open-menu", function () {
-    const offcanvasMobileMenu = new bootstrap.Offcanvas('#offcanvas-mobile-menu')
-    offcanvasMobileMenu.show()
-  });
 
   // 右侧购物车弹出层内交互
   $(document).on("click", "#offcanvas-right-cart .product-list .select-wrap", function () {
@@ -130,8 +111,12 @@ $(function () {
 
   // 右侧购物车弹出层内交互
   $(document).on("change", "#offcanvas-right-cart .price input", function () {
-    const [id, sku_id, quantity] = [$(this).data('id'), $(this).data('sku'), $(this).val() * 1];
-    if ($(this).val() === '') $(this).val(1);
+    const [id, sku_id] = [$(this).data('id'), $(this).data('sku')];
+    let quantity = parseInt($(this).val(), 10);
+    if (!Number.isFinite(quantity) || quantity < 1) {
+      quantity = 1;
+    }
+    $(this).val(quantity);
     let that = this;
     $http.put(`/carts/${id}`, {
       quantity: quantity,
@@ -211,4 +196,3 @@ $(function () {
     })
   }());
 });
-

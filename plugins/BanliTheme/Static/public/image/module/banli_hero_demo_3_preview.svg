@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="338" viewBox="0 0 600 338" role="img" aria-label="Banli Hero 03 preview">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1">
+      <stop offset="0" stop-color="#101535"/>
+      <stop offset=".58" stop-color="#141d52"/>
+      <stop offset="1" stop-color="#281856"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" x2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#8d94ad"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="338" rx="18" fill="url(#bg)"/>
+  <path d="M-40 250 L620 70" stroke="#ffffff" stroke-opacity=".08" stroke-width="42"/>
+  <path d="M-24 300 L600 124" stroke="#7b55ff" stroke-opacity=".18" stroke-width="2"/>
+  <rect x="360" y="46" width="184" height="246" rx="18" fill="#ffffff" opacity=".12" stroke="#ffffff" stroke-opacity=".2"/>
+  <circle cx="452" cy="152" r="58" fill="#ffffff" opacity=".15"/>
+  <text x="54" y="104" fill="#a38cff" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="800">BIG TYPE</text>
+  <text x="52" y="176" fill="url(#shine)" font-family="Inter,Arial,sans-serif" font-size="78" font-weight="900">AI</text>
+  <text x="52" y="244" fill="url(#shine)" font-family="Inter,Arial,sans-serif" font-size="60" font-weight="900">SUMMIT</text>
+  <text x="54" y="284" fill="#cdd3e8" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700">Static background hero</text>
+</svg>

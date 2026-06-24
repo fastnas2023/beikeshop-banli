@@ -102,18 +102,21 @@ function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t =
       _params$isBuyNow = params.isBuyNow,
       isBuyNow = _params$isBuyNow === void 0 ? false : _params$isBuyNow,
       extraParams = _objectWithoutProperties(params, _excluded);
-    var $btn = $(event);
-    var btnHtml = $btn.html();
+    var $btn = event ? $(event) : $();
+    var hasButton = $btn.length > 0;
+    var btnHtml = hasButton ? $btn.html() : '';
     var loadHtml = '<span class="spinner-border spinner-border-sm"></span>';
-    $btn.html(loadHtml).prop('disabled', true);
+    if (hasButton) {
+      $btn.html(loadHtml).prop('disabled', true);
+    }
     $(document).find('.tooltip').remove();
     var postData = _objectSpread({
       sku_id: sku_id,
       quantity: quantity,
       buy_now: isBuyNow
     }, extraParams);
-    $http.post('/carts', postData, {
-      hload: !!event
+    return $http.post('/carts', postData, {
+      hload: hasButton
     }).then(function (res) {
       _this.getCarts();
       if (!isBuyNow) {
@@ -123,7 +126,9 @@ function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t =
         callback(res);
       }
     })["finally"](function () {
-      $btn.html(btnHtml).prop('disabled', false);
+      if (hasButton) {
+        $btn.html(btnHtml).prop('disabled', false);
+      }
     });
   },
   addWishlist: function addWishlist(id, event) {
@@ -175,15 +180,21 @@ function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t =
     });
   },
   productQuickView: function productQuickView(id, callback) {
-    var w = window.innerWidth > 1000 ? '1000px' : '95%';
-    var h = window.innerWidth > 1000 ? '600px' : '90%';
+    var isPhone = window.innerWidth <= 575;
+    var inset = isPhone ? 0 : window.innerWidth >= 992 ? 64 : 24;
+    var availableWidth = window.innerWidth - inset;
+    var availableHeight = window.innerHeight - inset;
+    var w = isPhone ? "".concat(window.innerWidth, "px") : "".concat(Math.max(320, Math.min(1120, availableWidth)), "px");
+    var h = isPhone ? "".concat(window.innerHeight, "px") : "".concat(Math.max(520, Math.min(760, availableHeight)), "px");
     layer.open({
       type: 2,
       title: '',
       shadeClose: true,
       scrollbar: false,
+      resize: false,
+      shade: [0.42, '#050713'],
       area: [w, h],
-      skin: 'login-pop-box',
+      skin: 'banli-product-quick-view-layer',
       content: "products/".concat(id, "?iframe=true")
     });
   },
@@ -341,18 +352,6 @@ $(function () {
   if (myOffcanvas) {
     myOffcanvas.addEventListener("shown.bs.offcanvas", function () {
       $("#offcanvas-search-top input").focus();
-      $("#offcanvas-search-top input").keydown(function (e) {
-        if (e.keyCode == 13) {
-          if ($(this).val() != "") {
-            var lang = $(this).data("lang");
-            if (lang) {
-              location.href = "/" + lang + "/products/search?keyword=" + $(this).val();
-            } else {
-              location.href = "products/search?keyword=" + $(this).val();
-            }
-          }
-        }
-      });
     });
   }
 
@@ -386,12 +385,6 @@ $(function () {
       $('.offcanvas-right-cart-count').text(res.data.quantity);
       $('.offcanvas-right-cart-amount').text(res.data.amount_format);
     });
-  });
-
-  // 响应式下弹窗菜单交互
-  $(document).on("click", ".mobile-open-menu", function () {
-    var offcanvasMobileMenu = new bootstrap.Offcanvas('#offcanvas-mobile-menu');
-    offcanvasMobileMenu.show();
   });
 
   // 右侧购物车弹出层内交互
@@ -445,11 +438,14 @@ $(function () {
 
   // 右侧购物车弹出层内交互
   $(document).on("change", "#offcanvas-right-cart .price input", function () {
-    var _ref = [$(this).data('id'), $(this).data('sku'), $(this).val() * 1],
+    var _ref = [$(this).data('id'), $(this).data('sku')],
       id = _ref[0],
-      sku_id = _ref[1],
-      quantity = _ref[2];
-    if ($(this).val() === '') $(this).val(1);
+      sku_id = _ref[1];
+    var quantity = parseInt($(this).val(), 10);
+    if (!Number.isFinite(quantity) || quantity < 1) {
+      quantity = 1;
+    }
+    $(this).val(quantity);
     var that = this;
     $http.put("/carts/".concat(id), {
       quantity: quantity,

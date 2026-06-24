@@ -1,7 +1,7 @@
 @if ($products)
   @foreach ($products as $product)
   <div class="{{ $class ?: 'col-6 col-sm-4 col-md-3 col-lg-2' }}">
-    @include('shared.product')
+    @include('shared.product', ['mode' => is_mobile() ? 'list' : 'grid', 'show_actions' => true])
   </div>
   @endforeach
 

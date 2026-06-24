@@ -1,7 +1,8 @@
 @if ($product['video'])
   <div class="video-wrap">
     @php
-      $isYouTube = str_contains($product['video'], 'youtube.com/watch') || str_contains($product['video'], 'youtu.be/');
+      $productVideoUrl = (string) $product['video'];
+      $isYouTube = preg_match('~(?:youtube\.com/(?:watch|embed|shorts)|youtu\.be/)~i', $productVideoUrl);
     @endphp
 
     @if ($isYouTube)
@@ -24,13 +25,29 @@
 
 @push('add-scripts')
   <script>
-    const videoUrl = '{!! $product['video'] !!}';
+    const videoUrl = @json($product['video']);
     const videoId = (function(url) {
       try {
-        const parsed = new URL(url);
-        if (parsed.hostname.includes('youtu.be')) return parsed.pathname.slice(1);
-        if (parsed.hostname.includes('youtube.com') && parsed.searchParams.has('v')) return parsed.searchParams.get('v');
+        const parsed = new URL(url, window.location.origin);
+        const hostname = parsed.hostname.replace(/^www\./i, '').toLowerCase();
+        let id = null;
+
+        if (hostname === 'youtu.be') {
+          id = parsed.pathname.split('/').filter(Boolean)[0] || null;
+        } else if (hostname === 'youtube.com' || hostname.endsWith('.youtube.com')) {
+          if (parsed.searchParams.has('v')) {
+            id = parsed.searchParams.get('v');
+          } else {
+            const parts = parsed.pathname.split('/').filter(Boolean);
+            if (['embed', 'shorts'].includes(parts[0])) {
+              id = parts[1] || null;
+            }
+          }
+        }
+
+        return id && /^[A-Za-z0-9_-]{6,}$/.test(id) ? id : null;
       } catch (e) { return null; }
+
       return null;
     })(videoUrl);
 

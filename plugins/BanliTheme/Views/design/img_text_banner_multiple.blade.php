@@ -12,7 +12,7 @@
                     @if(!empty($content['description']))
                     <p class="lead mb-0 wow fadeInUp" style="{{ !empty($content['text_color']) ? 'color: '.$content['text_color'].';' : '' }}">{{ is_array($content['description']) ? ($content['description'][locale()] ?? $content['description']['en'] ?? '') : $content['description'] }}</p>
                     @else
-                    <p class="lead mb-0 wow fadeInUp" style="{{ !empty($content['text_color']) ? 'color: '.$content['text_color'].';' : '' }}">Hear from global AI pioneers, industry disruptors, and bold thinkers shaping the future across every domain.</p>
+                    <p class="lead mb-0 wow fadeInUp" style="{{ !empty($content['text_color']) ? 'color: '.$content['text_color'].';' : '' }}">Present product strengths, brand values, or service highlights with a flexible grid.</p>
                     @endif
                 </div>
             </div>
@@ -37,7 +37,7 @@
                                         </div>
                                     </div>
                                     <div class="gradient-edge-bottom h-100"></div>
-                                    <img src="{{ $imgSrc ?: 'https://madebydesignesia.com/themes/cyber/images/misc/s3.webp' }}" class="w-100 hover-scale-1-1" alt="{{ $image['text'] ?? '' }}">
+                                    <img src="{{ $imgSrc ?: asset('image/placeholder.png') }}" class="w-100 hover-scale-1-1" alt="{{ $image['text'] ?? '' }}">
                                     <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
                                 </div>
                             </a>
@@ -48,12 +48,12 @@
                     <!-- Fallback if no images in BeikeShop module -->
                     @php
                         $fallback_images = [
-                            ['title' => 'Cutting-Edge Knowledge', 'desc' => 'Stay ahead of the curve with insights from AI leaders shaping tomorrow’s technology.', 'img' => 's3.webp'],
-                            ['title' => 'Hands-On Learning', 'desc' => 'Join live workshops and labs to build practical skills in AI and machine learning.', 'img' => 's4.webp'],
-                            ['title' => 'Global Networking', 'desc' => 'Meet developers, founders, and researchers from around the world to collaborate and grow.', 'img' => 's5.webp'],
-                            ['title' => 'Startup Showcase', 'desc' => 'Explore the latest AI tools and ideas from promising startups and research labs.', 'img' => 's6.webp'],
-                            ['title' => 'AI Career Boost', 'desc' => 'Access exclusive job fairs, mentorship sessions, and recruiting events to grow your career.', 'img' => 's7.webp'],
-                            ['title' => 'Ethics & Future', 'desc' => 'Engage in vital conversations around AI ethics, policy, and the future of intelligence.', 'img' => 's8.webp']
+                            ['title' => 'Quality Selection', 'desc' => 'Showcase carefully selected products and consistent quality standards.'],
+                            ['title' => 'Fast Fulfillment', 'desc' => 'Set expectations for reliable processing, delivery, and order updates.'],
+                            ['title' => 'Secure Checkout', 'desc' => 'Help customers understand payment security and smooth checkout flows.'],
+                            ['title' => 'Customer Support', 'desc' => 'Highlight service channels, response expectations, and after-sales care.'],
+                            ['title' => 'Seasonal Drops', 'desc' => 'Promote new arrivals, limited collections, or featured campaigns.'],
+                            ['title' => 'Easy Returns', 'desc' => 'Reduce purchase hesitation with clear return and exchange promises.']
                         ];
                     @endphp
                     @foreach($fallback_images as $f)
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="gradient-edge-bottom h-100"></div>
-                                <img src="https://madebydesignesia.com/themes/cyber/images/misc/{{ $f['img'] }}" class="w-100 hover-scale-1-1" alt="">
+                                <img src="{{ asset('image/placeholder.png') }}" class="w-100 hover-scale-1-1" alt="">
                                 <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
                             </div>
                         </div>

@@ -7,10 +7,18 @@
   <script src="{{ asset('vendor/scrolltofixed/jquery-scrolltofixed-min.js') }}"></script>
   <script src="{{ asset('vendor/element-ui/index.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('vendor/element-ui/index.css') }}">
+  <style>
+    body.page-checkout #wrapper {
+      padding-top: var(--banli-header-height, 104px) !important;
+    }
+    body.page-checkout .section-dark {
+      padding-top: clamp(1rem, 2vw, 1.5rem);
+    }
+  </style>
 @endpush
 
 @section('content')
-<div class="bg-dark section-dark text-light" style="padding-top: 100px; min-height: 100vh;">
+<div class="bg-dark section-dark text-light" style="min-height: 100vh;">
   <x-shop-breadcrumb type="static" value="checkout.index"/>
 
   <div class="container">
@@ -76,8 +84,8 @@
                         </div>
                         <div class="right ms-2">
                           <div class="title">{{ $shipping['name'] }}</div>
-                          @if (isset($shipping['html']))
-                            <div class="mt-2">{!! $shipping['html'] !!}</div>
+                          @if (isset($shipping['html']) && trim(strip_tags($shipping['html'])) !== '')
+                            <div class="mt-2">{{ strip_tags($shipping['html']) }}</div>
                           @endif
                         </div>
                       </div>
@@ -159,7 +167,9 @@
 
                 @hookwrapper('checkout.confirm')
                 <button class="btn btn-neon fw-bold fs-5" type="button"
-                        id="submit-checkout">{{ __('shop/checkout.submit_order') }}</button>
+                        id="submit-checkout"
+                        data-label="{{ __('shop/checkout.submit_order') }}"
+                        data-loading-label="{{ __('common.text_loading') }}">{{ __('shop/checkout.submit_order') }}</button>
                 @endhookwrapper
               </div>
 
@@ -178,12 +188,18 @@
 @push('add-scripts')
   <script>
     $(document).ready(function () {
+      let checkoutSubmitting = false;
+
       $(document).on('click', '.radio-line-item', function (event) {
         if ($(this).hasClass('active')) return;
         updateCheckout($(this).data('key'), $(this).data('value'))
       });
 
       $('#submit-checkout').click(function (event) {
+        if (checkoutSubmitting) {
+          return;
+        }
+
         const address = config.isLogin ? checkoutAddressApp.form.shipping_address_id : checkoutAddressApp.source.guest_shipping_address;
         const payment = config.isLogin ? checkoutAddressApp.form.payment_address_id : checkoutAddressApp.source.guest_payment_address;
 
@@ -203,7 +219,17 @@
           comment: $('textarea[name=comment]').val()
         }
 
+        checkoutSubmitting = true;
+        setCheckoutSubmitting(true);
+
         $http.post('/checkout/confirm', data).then((res) => {
+          if (!res || res.status == 'fail') {
+            layer.msg(res && res.message ? res.message : '{{ __('common.api_error_message') }}');
+            checkoutSubmitting = false;
+            setCheckoutSubmitting(false);
+            return;
+          }
+
           const lang = "{{ locale() === system_setting('base.locale') ? "null": session()->get('locale') }}";
           let path = '/' + '{{ session()->get('locale') }}' + '/orders/' + res.number + '/pay?type=create';
           if(lang === "null") {
@@ -211,6 +237,9 @@
           }
 
           location = path;
+        }).catch(() => {
+          checkoutSubmitting = false;
+          setCheckoutSubmitting(false);
         })
       });
 
@@ -218,6 +247,15 @@
         bk.openLogin();
       });
     });
+
+    function setCheckoutSubmitting(isSubmitting) {
+      const $button = $('#submit-checkout');
+      const label = $button.data('label');
+      const loadingLabel = $button.data('loading-label');
+
+      $button.prop('disabled', isSubmitting);
+      $button.text(isSubmitting ? loadingLabel : label);
+    }
 
     const updateCheckout = (key, value, callback) => {
       $http.put('/checkout', {[key]: value}).then((res) => {
@@ -238,46 +276,140 @@
     }
 
     const updateTotal = (totals) => {
-      $('ul.totals').html(totals.map((item) => `<li><span>${item.title}</span><span>${item.amount_format}</span></li>`).join(''));
+      const $totals = $('ul.totals').empty();
+
+      totals.forEach((item) => {
+        $('<li>')
+          .append($('<span>').text(item.title || ''))
+          .append($('<span>').text(item.amount_format || ''))
+          .appendTo($totals);
+      });
     }
 
     const updateShippingMethods = (data, shipping_method_code) => {
-      let html = '';
+      const $wrap = $('<div>', {
+        class: 'radio-line-wrap',
+        id: 'shipping-methods-wrap',
+      });
 
       data.forEach((methods) => {
         methods.quotes.forEach((quote) => {
-          html += `<div class="radio-line-item d-flex align-items-center ${shipping_method_code == quote.code ? 'active' : ''}" data-key="shipping_method_code" data-value="${quote.code}">
-          <div class="left">
-            <span class="radio"></span>
-            <img src="${quote.icon}" class="img-fluid rounded-2" alt="${quote.name}">
-          </div>
-          <div class="right ms-2">
-            <div class="title">${quote.name}</div>
-            <div class="mt-2 ${!quote.html ? 'd-none' : ''}">${quote.html || ''}</div>
-          </div>
-        </div>`;
+          const $item = buildCheckoutMethodItem({
+            key: 'shipping_method_code',
+            code: quote.code,
+            name: quote.name,
+            icon: quote.icon,
+            active: shipping_method_code == quote.code,
+            html: quote.html,
+          });
+
+          $wrap.append($item);
         })
       })
 
-      $('#shipping-methods-wrap').replaceWith('<div class="radio-line-wrap" id="shipping-methods-wrap">' + html + '</div>');
+      $('#shipping-methods-wrap').replaceWith($wrap);
     }
 
     const updatePaymentMethods = (data, payment_method_code) => {
-      let html = '';
+      const $wrap = $('<div>', {
+        class: 'radio-line-wrap',
+        id: 'payment-methods-wrap',
+      });
 
       data.forEach((item) => {
-        html += `<div class="radio-line-item d-flex align-items-center ${payment_method_code == item.code ? 'active' : ''}" data-key="payment_method_code" data-value="${item.code}">
-        <div class="left">
-          <span class="radio"></span>
-          <img src="${item.icon}" class="img-fluid rounded-2" alt="${item.name}">
-        </div>
-        <div class="right ms-2">
-          <div class="title">${item.name}</div>
-        </div>
-      </div>`;
+        $wrap.append(buildCheckoutMethodItem({
+          key: 'payment_method_code',
+          code: item.code,
+          name: item.name,
+          icon: item.icon,
+          active: payment_method_code == item.code,
+        }));
       })
 
-      $('#payment-methods-wrap').replaceWith('<div class="radio-line-wrap" id="payment-methods-wrap">' + html + '</div>');
+      $('#payment-methods-wrap').replaceWith($wrap);
+    }
+
+    function buildCheckoutMethodItem(options) {
+      const $item = $('<div>', {
+        class: 'radio-line-item d-flex align-items-center' + (options.active ? ' active' : ''),
+      }).attr({
+        'data-key': options.key,
+        'data-value': options.code || '',
+      });
+
+      const $left = $('<div>', {class: 'left'}).append($('<span>', {class: 'radio'}));
+      const safeIcon = normalizeCheckoutAssetUrl(options.icon);
+      if (safeIcon) {
+        $('<img>', {
+          src: safeIcon,
+          class: 'img-fluid rounded-2',
+          alt: options.name || '',
+        }).appendTo($left);
+      }
+
+      const $right = $('<div>', {class: 'right ms-2'})
+        .append($('<div>', {class: 'title'}).text(options.name || ''));
+
+      if (options.html) {
+        $('<div>', {class: 'mt-2'})
+          .append(sanitizeCheckoutHtml(options.html))
+          .appendTo($right);
+      }
+
+      return $item.append($left, $right);
+    }
+
+    function normalizeCheckoutAssetUrl(value) {
+      const url = String(value || '').trim();
+
+      if (!url || /^(javascript|data|vbscript):/i.test(url)) {
+        return '';
+      }
+
+      return url;
+    }
+
+    function sanitizeCheckoutHtml(value) {
+      const allowedTags = ['B', 'BR', 'DIV', 'EM', 'I', 'P', 'SMALL', 'SPAN', 'STRONG'];
+      const allowedClasses = ['text-muted', 'text-secondary', 'text-light', 'small', 'fw-bold', 'mt-1', 'mt-2', 'mb-0'];
+      const source = document.createElement('template');
+      const fragment = document.createDocumentFragment();
+
+      source.innerHTML = String(value || '');
+
+      function walk(node, target) {
+        Array.from(node.childNodes).forEach((child) => {
+          if (child.nodeType === Node.TEXT_NODE) {
+            target.appendChild(document.createTextNode(child.textContent || ''));
+            return;
+          }
+
+          if (child.nodeType !== Node.ELEMENT_NODE) {
+            return;
+          }
+
+          if (!allowedTags.includes(child.tagName)) {
+            walk(child, target);
+            return;
+          }
+
+          const clone = document.createElement(child.tagName.toLowerCase());
+          const classNames = (child.getAttribute('class') || '')
+            .split(/\s+/)
+            .filter((className) => allowedClasses.includes(className));
+
+          if (classNames.length) {
+            clone.setAttribute('class', classNames.join(' '));
+          }
+
+          walk(child, clone);
+          target.appendChild(clone);
+        });
+      }
+
+      walk(source.content, fragment);
+
+      return fragment;
     }
   </script>
 @endpush

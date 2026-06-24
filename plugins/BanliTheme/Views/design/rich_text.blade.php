@@ -23,18 +23,18 @@
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-5">
-                        <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Everything You Need to Know</div>
-                        <h2 class="wow fadeInUp" data-wow-delay=".2s">Frequently Asked Questions</h2>
+                        <div class="subtitle wow fadeInUp" data-wow-delay=".0s">{{ __('BanliTheme::common.featured_products') }}</div>
+                        <h2 class="wow fadeInUp" data-wow-delay=".2s">{{ __('common.text_hint') }}</h2>
                     </div>
 
                     <div class="col-lg-7">
                         <div class="accordion s2 wow fadeInUp">
                             <div class="accordion-section">
                                 <div class="accordion-section-title" data-tab="#accordion-a1">
-                                    What is the AI Summit 2026?
+                                    {{ __('BanliTheme::common.rich_text_default_question') }}
                                 </div>
                                 <div class="accordion-section-content" id="accordion-a1">
-                                    The AI Summit 2026 is a premier event gathering leading AI experts, thought leaders, and innovators.
+                                    {{ __('BanliTheme::common.rich_text_default_answer') }}
                                 </div>
                             </div>
                         </div>                        
