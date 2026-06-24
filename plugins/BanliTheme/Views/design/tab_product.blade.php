@@ -44,7 +44,7 @@
                     @endforeach
                 @elseif(isset($content['tabs']) && count($content['tabs']) > 0 && isset($content['tabs'][0]['products']) && count($content['tabs'][0]['products']) > 0)
                     @php
-                        $products = $content['tabs'][0]['products'];
+                        $products = array_slice($content['tabs'][0]['products'], 0, 4);
                     @endphp
                     @foreach($products as $product)
                     @php
@@ -54,7 +54,7 @@
                         $productImage = $product['images'][0] ?? $product['image'] ?? '';
                         $productUrl = $product['url'] ?? route('product.show', ['id' => $productId]);
                     @endphp
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="product-wrap hover bg-dark-2 rounded-1 overflow-hidden h-100 wow fadeIn position-relative">
                             <div class="image position-relative overflow-hidden">
                                 <a href="{{ $productUrl }}" class="d-block overflow-hidden position-relative" style="aspect-ratio: 1/1;">
@@ -134,7 +134,7 @@
                         ];
                     @endphp
                     @foreach($placeholderProducts as $product)
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="hover bg-dark-2 rounded-1 overflow-hidden h-100 wow fadeIn">
                             <a href="javascript:void(0)" class="d-block overflow-hidden" style="aspect-ratio: 1/1;">
                                 <img src="{{ asset('image/placeholder.png') }}" class="w-100 h-100 transition-transform hover-scale-1-1" style="object-fit: cover;" alt="">

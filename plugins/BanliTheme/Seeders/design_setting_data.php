@@ -666,7 +666,7 @@ Global Online',
           array (
             'image' =>
             array (
-              'src' => '\\/image\\/catalog\\/demo\\/banner\\/banner-7.webp',
+              'src' => '/image/catalog/demo/banner/banner-7.webp',
               'alt' =>
               array (
                 'zh_cn' => '',
@@ -695,7 +695,7 @@ Global Online',
           array (
             'image' =>
             array (
-              'src' => '\\/image\\/catalog\\/demo\\/banner\\/banner-6.webp',
+              'src' => '/image/catalog/demo/banner/banner-6.webp',
               'alt' =>
               array (
                 'zh_cn' => '',
@@ -717,6 +717,35 @@ Global Online',
             array (
               'zh_cn' => '\\u9650\\u65f6\\u6298\\u6263\\u4e0d\\u5bb9\\u9519\\u8fc7',
               'en' => 'Grab limited offers',
+            ),
+            'show' => false,
+          ),
+          2 =>
+          array (
+            'image' =>
+            array (
+              'src' => '/image/catalog/demo/banner/banner-4.jpg',
+              'alt' =>
+              array (
+                'zh_cn' => '',
+                'en' => '',
+              ),
+            ),
+            'link' =>
+            array (
+              'type' => 'product',
+              'value' => '3',
+              'link' => '',
+            ),
+            'text' =>
+            array (
+              'zh_cn' => '\\u7cbe\\u9009\\u7cfb\\u5217',
+              'en' => 'Curated Selection',
+            ),
+            'sub_text' =>
+            array (
+              'zh_cn' => '\\u63a2\\u7d22\\u66f4\\u591a\\u4eba\\u6c14\\u5355\\u54c1\\u4e0e\\u7cbe\\u9009\\u642d\\u914d',
+              'en' => 'Explore more popular picks and curated outfits',
             ),
             'show' => false,
           ),

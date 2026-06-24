@@ -27,7 +27,7 @@
                   $productImage = $product['images'][0] ?? $product['image'] ?? '';
                   $productUrl = $product['url'] ?? ($productId ? shop_route('products.show', ['product' => $productId]) : '#');
                 @endphp
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                   <div class="product-wrap hover bg-dark-2 rounded-1 overflow-hidden h-100 wow fadeIn position-relative">
                     <div class="image position-relative overflow-hidden">
                       <a href="{{ $productUrl }}" class="d-block overflow-hidden position-relative" style="aspect-ratio: 1/1;">
